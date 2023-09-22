@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+namespace LibraryAPI.Models
+{
+    public class Publisher
+    {
+        public Publisher() { }
+        public Publisher(int id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public IEnumerable<Book> Books { get; set; }
+    }
+}
