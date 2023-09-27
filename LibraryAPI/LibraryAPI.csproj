@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.22" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.22" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.22" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json-schema.api.strmprivacy.io/latest/strmprivacy.api.entities.v1.Stream.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

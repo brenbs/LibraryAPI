@@ -20,6 +20,6 @@ namespace LibraryAPI.Models
         public int Stock { get; set; }
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
-        public IEnumerable<Rental> Rentals { get; set; }
+       // public IEnumerable<Rental> Rentals { get; set; }
     }
 }

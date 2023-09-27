@@ -1,6 +1,8 @@
-﻿using LibraryAPI.Models;
+﻿using LibraryAPI.Data;
+using LibraryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Controllers
 {
@@ -8,55 +10,32 @@ namespace LibraryAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        public List<User> Users = new List<User>()  //List <do tipo user> 
+        private readonly DataContext _context;
+
+        public UserController(DataContext context)
         {
-          new User()
-          {
-              Id=1,
-              Name="Brenda",
-              Email="brenbs@gmail.com",
-              Telephone=85958394,
-              Adress="Álvaro Weyne rua Manoel Pereira n°489",
-              City="Fortaleza,CE"
-          },
-          new User()
-          {
-              Id=2,
-              Name="Emauela",
-              Email="manhu@gmail.com",
-              Telephone=25656532,
-              Adress="Moranguinho, rua Maria n°321",
-              City="Horizonte,CE"
-          },
-          new User()
-          {
-              Id=3,
-              Name="Heloísa",
-              Email="lolo@gmail.com",
-              Telephone=85503593,
-              Adress="Damas, rua Professor Costa Mendes n°933",
-              City="Fortaleza,CE"
-          },
-        };
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(Users);
+            return Ok(_context.Users);
         }
 
         [HttpGet("ById/{id}")] //{} parâmetro é tipo como se ficasse LibraryAPI/Users/(id)
         public IActionResult GetById(int id)
         {
-            var user = Users.FirstOrDefault(u => u.Id == id);
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
             if (user == null) return BadRequest("O Usuário não foi encontrado");
 
             return Ok(user);
         }
 
-        [HttpGet("ByName")] //aqui ele filtra sópor nome
+        [HttpGet("ByName")] //aqui ele filtra só por nome
         public IActionResult GetByName(string name)
         {
-            var user = Users.FirstOrDefault(u => u.Name.Contains(name));
+            var user = _context.Users.FirstOrDefault(u => u.Name.Contains(name));
             if (user == null) return BadRequest("O Usuário não foi encontrado");
 
             return Ok(user);
@@ -65,24 +44,28 @@ namespace LibraryAPI.Controllers
         [HttpPost] 
         public IActionResult Post(User user)
         {
+            _context.Add(user);
+            _context.SaveChanges();
             return Ok(user);
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, User user)
         {
-            return Ok(user);
-        }
-
-        [HttpPatch("{id}")]
-        public IActionResult Patch(int id, User user)
-        {
+            var use = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            if (use == null) return BadRequest("Usuário não encontrado");
+            _context.Update(user);
+            _context.SaveChanges();
             return Ok(user);
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            var user = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == id);
+            if (user == null) return BadRequest("Usuário não encontrado");
+            _context.Remove(user);
+            _context.SaveChanges();
             return Ok();
         }
     }
