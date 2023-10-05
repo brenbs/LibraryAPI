@@ -1,9 +1,9 @@
 ﻿using LibraryAPI.Data;
+using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace LibraryAPI.Controllers
 {
@@ -11,62 +11,65 @@ namespace LibraryAPI.Controllers
     [ApiController]
     public class PublisherController  : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IPublisherRepository _repo;
 
-        public PublisherController(DataContext context)
+        public PublisherController(IPublisherRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
+
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_context.Publishers);
+            var result = _repo.GetAllPublishers();
+            return Ok(result);
         }
 
-        [HttpGet("ById/{id}")] //{} parâmetro é tipo como se ficasse LibraryAPI/Publishers/(id)
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var publisher = _context.Publishers.FirstOrDefault(p => p.Id == id);
-            if (publisher == null) return BadRequest("A Editora não foi encontrada");
-
-            return Ok(publisher);
-        }
-
-        [HttpGet("ByName")] //aqui ele filtra só por nome
-        public IActionResult GetByName(string name)
-        {
-            var publisher = _context.Publishers.FirstOrDefault(p => p.Name.Contains(name));
-            if (publisher == null) return BadRequest("A  Editora não foi encontrada");
-
+            var publisher = _repo.GetPublishersById(id);
+            if (publisher == null) return BadRequest("Editora não encontrada");
             return Ok(publisher);
         }
 
         [HttpPost] 
         public IActionResult Post(Publisher publisher)
         {
-            _context.Add(publisher);
-            _context.SaveChanges();
-            return Ok(publisher);
+            _repo.Add(publisher);
+            if (_repo.SaveChanges())
+            {
+                return Ok(publisher);
+            }
+            return BadRequest("Editora não cadastrada");
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, Publisher publisher)
         {
-            var pub = _context.Publishers.AsNoTracking().FirstOrDefault(p => p.Id == id);
-            if (pub == null) return BadRequest("Usuário não encontrado");
-            _context.Update(publisher);
-            _context.SaveChanges();
-            return Ok(publisher);
+            var publishe = _repo.GetPublishersById(id);
+            if (publisher == null) return BadRequest("Editora não encontrada");
+           
+            _repo.Update(publisher);
+            if (_repo.SaveChanges())
+            {
+                return Ok(publisher);
+            }
+            return BadRequest("Editora não cadastrada");
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var publisher = _context.Publishers.AsNoTracking().FirstOrDefault(p => p.Id == id);
-            if (publisher == null) return BadRequest("Usuário não encontrado");
-            _context.Remove(publisher);
-            _context.SaveChanges();
-            return Ok();
+            var publisher = _repo.GetPublishersById(id);
+            if (publisher == null) return BadRequest("Editora não encontrada");
+            
+            _repo.Delete(publisher);
+            if (_repo.SaveChanges())
+            {
+                return Ok("Editora deletada");
+            }
+            return BadRequest("Editora não cadastrada");
         }
     }
 }

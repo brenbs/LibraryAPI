@@ -31,12 +31,12 @@ namespace LibraryAPI.Data
                 });
 
             builder.Entity<User>()
-                .HasData(new List<User>(){
-                    new User(1, "Brenda", "brenbs@gmail.com",85958394,"Álvaro Weyne rua Manoel Pereira n°489","Fortaleza,CE"),
-                    new User(2,"Emauela","manhu@gmail.com",25656532,"Moranguinho, rua Maria n°321","Horizonte,CE" ),
-                    new User(3,"Heloísa","lolo@gmail.com",85503593,"Damas, rua Professor Costa Mendes n°933","Fortaleza,CE" ),
-                    new User(4, "Antonio","tonys@gmail.com",87894587,"Aldeota, Av.Dom Luís n°5001","Fortaleza,CE"),
-                    new User(5,"Emanuel","manel@gmail.com",805309245,"Álvaro Weyne,Coelho Neto n°400","Fortaleza,CE")
+                .HasData(new List<User>(){ 
+                    new User(1, "Brenda", "brenbs@gmail.com","85958394","Álvaro Weyne rua Manoel Pereira n°489","Fortaleza,CE"),
+                    new User(2,"Emauela","manhu@gmail.com","25656532","Moranguinho, rua Maria n°321","Horizonte,CE" ),
+                    new User(3,"Heloísa","lolo@gmail.com","85503593","Damas, rua Professor Costa Mendes n°933","Fortaleza,CE" ),
+                    new User(4, "Antonio","tonys@gmail.com","87894587","Aldeota, Av.Dom Luís n°5001","Fortaleza,CE"),
+                    new User(5,"Emanuel","manel@gmail.com","805309245","Álvaro Weyne,Coelho Neto n°400","Fortaleza,CE")
                 });
 
         }

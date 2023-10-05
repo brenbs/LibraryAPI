@@ -1,4 +1,5 @@
 using LibraryAPI.Data;
+using LibraryAPI.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(
     context => context.UseSqlite(builder.Configuration.GetConnectionString("Default"))
-    ); 
+    );
+
+builder.Services.AddScoped<IUserRepository, UserRepository>(); //toda vez q usar o irepository, injetar o repository
+
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>(); 
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
