@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace LibraryAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +15,8 @@ namespace LibraryAPI.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    City = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,7 +31,6 @@ namespace LibraryAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Telephone = table.Column<int>(type: "INTEGER", nullable: false),
                     Adress = table.Column<string>(type: "TEXT", nullable: false),
                     City = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -68,7 +69,11 @@ namespace LibraryAPI.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    BookId = table.Column<int>(type: "INTEGER", nullable: false)
+                    BookId = table.Column<int>(type: "INTEGER", nullable: false),
+                    RentalDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Forecast = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Devolution = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,53 +94,53 @@ namespace LibraryAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Publishers",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Pé da Letra" });
+                columns: new[] { "Id", "City", "Name" },
+                values: new object[] { 1, "São Paulo", "Pé da Letra" });
 
             migrationBuilder.InsertData(
                 table: "Publishers",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "JBC" });
+                columns: new[] { "Id", "City", "Name" },
+                values: new object[] { 2, "Fortaleza", "JBC" });
 
             migrationBuilder.InsertData(
                 table: "Publishers",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "MangaPop" });
+                columns: new[] { "Id", "City", "Name" },
+                values: new object[] { 3, "Vitória", "MangaPop" });
 
             migrationBuilder.InsertData(
                 table: "Publishers",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 4, "Intrínseca" });
+                columns: new[] { "Id", "City", "Name" },
+                values: new object[] { 4, "São Paulo", "Intrínseca" });
 
             migrationBuilder.InsertData(
                 table: "Publishers",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 5, "Panini" });
+                columns: new[] { "Id", "City", "Name" },
+                values: new object[] { 5, "Rio de Janeiro", "Panini" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name", "Telephone" },
-                values: new object[] { 1, "Álvaro Weyne rua Manoel Pereira n°489", "Fortaleza,CE", "brenbs@gmail.com", "Brenda", 85958394 });
+                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                values: new object[] { 1, "Álvaro Weyne rua Manoel Pereira n°489", "Fortaleza,CE", "brenbs@gmail.com", "Brenda" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name", "Telephone" },
-                values: new object[] { 2, "Moranguinho, rua Maria n°321", "Horizonte,CE", "manhu@gmail.com", "Emauela", 25656532 });
+                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                values: new object[] { 2, "Moranguinho, rua Maria n°321", "Horizonte,CE", "manhu@gmail.com", "Emauela" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name", "Telephone" },
-                values: new object[] { 3, "Damas, rua Professor Costa Mendes n°933", "Fortaleza,CE", "lolo@gmail.com", "Heloísa", 85503593 });
+                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                values: new object[] { 3, "Damas, rua Professor Costa Mendes n°933", "Fortaleza,CE", "lolo@gmail.com", "Heloísa" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name", "Telephone" },
-                values: new object[] { 4, "Aldeota, Av.Dom Luís n°5001", "Fortaleza,CE", "tonys@gmail.com", "Antonio", 87894587 });
+                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                values: new object[] { 4, "Aldeota, Av.Dom Luís n°5001", "Fortaleza,CE", "tonys@gmail.com", "Antonio" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name", "Telephone" },
-                values: new object[] { 5, "Álvaro Weyne,Coelho Neto n°400", "Fortaleza,CE", "manel@gmail.com", "Emanuel", 805309245 });
+                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                values: new object[] { 5, "Álvaro Weyne,Coelho Neto n°400", "Fortaleza,CE", "manel@gmail.com", "Emanuel" });
 
             migrationBuilder.InsertData(
                 table: "Books",

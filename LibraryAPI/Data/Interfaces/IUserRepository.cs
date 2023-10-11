@@ -10,6 +10,6 @@ namespace LibraryAPI.Data.Interfaces
         bool SaveChanges();
 
         User[] GetAllUsers();
-        User[] GetUsersById(int userId);
+        User GetUsersById(int UserId);
     }
 }

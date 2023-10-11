@@ -10,6 +10,6 @@ namespace LibraryAPI.Data.Interfaces
         bool SaveChanges();
 
         Publisher[] GetAllPublishers();
-        Publisher[] GetPublishersById(int publisherId);
+        Publisher GetPublishersById(int publisherId);
     }
 }

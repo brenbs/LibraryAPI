@@ -1,5 +1,7 @@
-﻿using LibraryAPI.Data;
+﻿using AutoMapper;
+using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Dtos.Users;
 using LibraryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +14,39 @@ namespace LibraryAPI.Controllers
     public class UserController : ControllerBase
     {
         public readonly IUserRepository _repo;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserRepository repo)
+        public UserController(IUserRepository repo,IMapper mapper)
         {
             _repo= repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _repo.GetAllUsers();
+            var users = _repo.GetAllUsers();
 
-            return Ok(result);
+            return Ok(_mapper.Map<IEnumerable<UserDto>>(users));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var user = _repo.GetUsersById(id);
+            if (user == null) return BadRequest("O Usuário não foi encontrado!");
+
+            var userDto = _mapper.Map<UserDto>(user);
+
+            return Ok(userDto);
         }
 
         [HttpPost] 
-        public IActionResult Post(User user)
+        public IActionResult Post(CreateUserDto model)
         {
+            var user = _mapper.Map<User>(model);
             _repo.Add(user);
-            if(_repo.SaveChanges())
+            if (_repo.SaveChanges())
             {
                 return Ok(user);
             }
@@ -38,15 +54,17 @@ namespace LibraryAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, User user)
+        public IActionResult Put(int id, UserDto model)
         {
-            var use = _repo.GetUsersById(id);
-            if (use == null) return BadRequest("Usuário não encontrado");
+            var user = _repo.GetUsersById(id);
+            if (user == null) return BadRequest("Usuário não encontrado");
+
+            _mapper.Map(model, user);
 
             _repo.Update(user);
             if (_repo.SaveChanges())
             {
-                return Ok(user);
+                return Created($"/api/user/{model.Id}", _mapper.Map<UserDto>(user));
             }
             return BadRequest("Usuário não cadastrado");
         }
@@ -60,9 +78,10 @@ namespace LibraryAPI.Controllers
             _repo.Delete(user);
             if (_repo.SaveChanges())
             {
-                return Ok("Aluno deletado");
+                return Ok("Usuário deletado");
             }
             return BadRequest("Usuário não cadastrado");
+            //por dps o NotFound
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using LibraryAPI.Data.Interfaces;
-using LibraryAPI.Migrations;
 using LibraryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,14 +40,13 @@ namespace LibraryAPI.Data
             return query.ToArray();
         }
 
-        public User[] GetUsersById(int userId)
+        public User GetUsersById(int userId)
         {
             IQueryable<User> query = _context.Users;
 
             query = query.AsNoTracking().OrderBy(u => u.Id).Where(user => user.Id == userId);
 
-            //return query.FirstOrDefault();
-            return query.ToArray();
+            return query.FirstOrDefault();
         }
     }
 }

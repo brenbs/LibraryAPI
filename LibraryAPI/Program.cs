@@ -11,13 +11,15 @@ builder.Services.AddDbContext<DataContext>(
     );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>(); //toda vez q usar o irepository, injetar o repository
-
-builder.Services.AddScoped<IPublisherRepository, PublisherRepository>(); 
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
+builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()) ;
 
 var app = builder.Build();
 

@@ -1,5 +1,7 @@
-﻿using LibraryAPI.Data;
+﻿using AutoMapper;
+using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +14,20 @@ namespace LibraryAPI.Controllers
     public class PublisherController  : ControllerBase
     {
         private readonly IPublisherRepository _repo;
+        private readonly IMapper _mapper;
 
-        public PublisherController(IPublisherRepository repo)
+        public PublisherController(IPublisherRepository repo, IMapper mapper)
         {
             _repo = repo;
+           _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var result = _repo.GetAllPublishers();
-            return Ok(result);
+            var publishers = _repo.GetAllPublishers();
+
+            return Ok(_mapper.Map<IEnumerable<PublisherDto>>(publishers));
         }
 
         [HttpGet("{id}")]
@@ -30,30 +35,37 @@ namespace LibraryAPI.Controllers
         {
             var publisher = _repo.GetPublishersById(id);
             if (publisher == null) return BadRequest("Editora não encontrada");
-            return Ok(publisher);
+            
+            var publisherDto = _mapper.Map<PublisherDto>(publisher);
+
+            return Ok(publisherDto);
         }
 
         [HttpPost] 
-        public IActionResult Post(Publisher publisher)
+        public IActionResult Post(CreatePublisherDto model)
         {
+            var publisher = _mapper.Map<Publisher>(model);
+
             _repo.Add(publisher);
             if (_repo.SaveChanges())
             {
-                return Ok(publisher);
+                return Ok(_mapper.Map<Publisher>(publisher));
             }
             return BadRequest("Editora não cadastrada");
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Publisher publisher)
+        public IActionResult Put(int id, PublisherDto model)
         {
-            var publishe = _repo.GetPublishersById(id);
+            var publisher = _repo.GetPublishersById(id);
             if (publisher == null) return BadRequest("Editora não encontrada");
-           
+
+            _mapper.Map(model, publisher);
+
             _repo.Update(publisher);
             if (_repo.SaveChanges())
             {
-                return Ok(publisher);
+                return Created($"/api/publisher/{model.Id}", _mapper.Map<PublisherDto>(publisher));
             }
             return BadRequest("Editora não cadastrada");
         }
