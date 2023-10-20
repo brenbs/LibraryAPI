@@ -1,5 +1,7 @@
 using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Services;
+using LibraryAPI.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>(); //toda vez q usar
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IPublisherRepository, PublisherRepository>();
 builder.Services.AddScoped<IRentalRepository, RentalRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -4,12 +4,11 @@ namespace LibraryAPI.Data.Interfaces
 {
     public interface IRentalRepository
     {
-        void Add<T>(T enity) where T : class;
-        void Update<T>(T enity) where T : class;
-        void Delete<T>(T enity) where T : class;
-        bool SaveChanges();
+        Task<Rental> Add(Rental rental);
+        Task Update(Rental rental);
+        Task Delete(Rental rental);
 
-        public Rental[] GetAllRentals(bool BookRentalDto = false, bool UserRentalDto = false);
-        public Rental GetRentalsById(int rentalId, bool BookRentalDto = false, bool UserRentalDto = false);
+        Task <ICollection<Rental>> GetAllRentals();
+        Task <Rental> GetRentalsById(int rentalId);
     }
 }

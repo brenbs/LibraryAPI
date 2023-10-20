@@ -11,42 +11,38 @@ namespace LibraryAPI.Data
         {
             _context = context;
         }
-
-        public void Add<T>(T enity) where T : class
+        
+        public async Task<User> Add(User user)
         {
-            _context.Add(enity);
+            _context.Add(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
-        public void Update<T>(T enity) where T : class
+        public async Task Update(User user)
         {
-            _context.Update(enity);
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+        }
+        public async Task Delete(User user)
+        {
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete<T>(T enity) where T : class
+        public async Task<ICollection<User>> GetAllusers()
         {
-            _context.Remove(enity);
+            return await _context.Users.ToListAsync();
         }
 
-        public bool SaveChanges()
+        public async Task<User> GetuserById(int userId)
         {
-            return (_context.SaveChanges() > 0);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
-        public User[] GetAllUsers()
+        public async Task<User> GetuserByName(string userName)
         {
-            IQueryable<User> query = _context.Users;
-
-            query = query.AsNoTracking().OrderBy(u => u.Id); //pega os usuarios e ordena por id
-            return query.ToArray();
-        }
-
-        public User GetUsersById(int userId)
-        {
-            IQueryable<User> query = _context.Users;
-
-            query = query.AsNoTracking().OrderBy(u => u.Id).Where(user => user.Id == userId);
-
-            return query.FirstOrDefault();
+            return await _context.Users.FirstOrDefaultAsync(u => u.Name == userName);
         }
     }
 }

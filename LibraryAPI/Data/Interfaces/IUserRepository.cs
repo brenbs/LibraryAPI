@@ -4,12 +4,13 @@ namespace LibraryAPI.Data.Interfaces
 {
     public interface IUserRepository
     {
-        void Add<T>(T enity)where T:class;
-        void Update<T>(T enity) where T : class;
-        void Delete<T>(T enity) where T : class;
-        bool SaveChanges();
+        Task<User> Add(User user);
+        Task Update(User user);
+        Task Delete(User user);
 
-        User[] GetAllUsers();
-        User GetUsersById(int UserId);
+        Task<ICollection<User>> GetAllusers();
+        Task<User> GetuserById(int userId);
+
+        Task<User> GetuserByName(string userName);
     }
 }

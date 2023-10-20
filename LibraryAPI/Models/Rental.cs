@@ -22,7 +22,7 @@ namespace LibraryAPI.Models
         public DateTime RentalDate { get; set; }
         public DateTime Forecast { get; set; }
         public DateTime Devolution { get; set; } 
-        public string Status { get; set; }  
+        public string? Status { get; set; } 
 
     }
 }

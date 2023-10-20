@@ -15,41 +15,33 @@ namespace LibraryAPI.Data
             _context = context;
         }
 
-        public void Add<T>(T enity) where T : class
+        public async Task Add(Book book)
         {
-            _context.Add(enity);
+            _context.Add(book);
+            await _context.SaveChangesAsync();
+           
+        }
+        public async Task Update(Book book)
+        {
+            _context.Update(book);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update<T>(T enity) where T : class
+        public async Task Delete(Book book)
         {
-            _context.Update(enity);
+            _context.Remove(book);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete<T>(T enity) where T : class
+        public async Task<ICollection<Book>> GetAllBooks()
         {
-            _context.Remove(enity);
+           return await _context.Books.Include(b => b.Publisher).ToListAsync();
         }
 
-        public bool SaveChanges()
+        public async Task<Book> GetBooksById(int BookId)
         {
-            return (_context.SaveChanges() > 0);
-        }
+            return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == BookId);
 
-        public Book[] GetAllBooks(bool includePublishers = false)
-        {
-            IQueryable<Book> query = _context.Books;
-
-            query = query.AsNoTracking().Include(b => b.Publisher).OrderBy(b => b.Id); //pega os usuarios e ordena por id
-            return query.ToArray();
-        }
-
-        public Book GetBooksById(int bookId, bool includePublishers = false)
-        {
-            IQueryable<Book> query = _context.Books;
-
-            query = query.AsNoTracking().Include(b=>b.Publisher).OrderBy(b => b.Id).Where(book => book.Id == bookId);
-
-            return query.FirstOrDefault();
         }
     }
 }

@@ -164,7 +164,6 @@ namespace LibraryAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")

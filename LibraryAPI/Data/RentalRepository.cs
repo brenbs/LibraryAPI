@@ -13,41 +13,33 @@ namespace LibraryAPI.Data
             _context = context;
         }
 
-        public void Add<T>(T enity) where T : class
+        public async Task<Rental> Add(Rental rental)
         {
-            _context.Add(enity);
+            _context.Add(rental);
+            await _context.SaveChangesAsync();
+            return rental;
         }
 
-        public void Update<T>(T enity) where T : class
+        public async Task Update(Rental rental)
         {
-            _context.Update(enity);
+            _context.Update(rental);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete<T>(T enity) where T : class
+        public async Task Delete(Rental rental)
         {
-            _context.Remove(enity);
+            _context.Remove(rental);
+            await _context.SaveChangesAsync();
         }
 
-        public bool SaveChanges()
+        public async Task<ICollection<Rental>> GetAllRentals()
         {
-            return (_context.SaveChanges() > 0);
+            return await _context.Rentals.Include(r => r.User).Include(r => r.Book).ToListAsync();
         }
 
-        public Rental[] GetAllRentals(bool BookRentalDto = false, bool UserRentalDto = false)
+        public async Task<Rental> GetRentalsById(int rentalId)
         {
-            IQueryable<Rental> query = _context.Rentals;
-
-            query = query.AsNoTracking().Include(b =>b.User).Include(b =>b.Book).OrderBy(r => r.Id); 
-            return query.ToArray();
-        }
-
-        public Rental GetRentalsById(int rentalId, bool BookRentalDto = false, bool UserRentalDto = false)
-        {
-            IQueryable<Rental> query = _context.Rentals;
-
-            query = query.AsNoTracking().Include(b => b.User).Include(b => b.Book).OrderBy(r => r.Id).Where(rental => rental.Id == rentalId);
-
-            return query.FirstOrDefault();
+            return await _context.Rentals.Include(r => r.User).Include(r => r.Book).FirstOrDefaultAsync();
         }
     }
 }

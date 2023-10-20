@@ -12,42 +12,40 @@ namespace LibraryAPI.Data
             _context = context;
         }
 
-        public void Add<T>(T enity) where T : class
+        public async Task<Publisher> Add(Publisher publisher)
         {
-            _context.Add(enity);
+            _context.Add(publisher);
+            await _context.SaveChangesAsync();
+            return publisher;
         }
 
-        public void Update<T>(T enity) where T : class
+        public async Task Update(Publisher publisher)
         {
-            _context.Update(enity);
+            _context.Update(publisher);
+            await _context.SaveChangesAsync();
+        }
+        public async Task Delete(Publisher publisher)
+        {
+            _context.Remove(publisher);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete<T>(T enity) where T : class
+        public async Task<ICollection<Publisher>> GetAllPublishers()
         {
-            _context.Remove(enity);
+            return await _context.Publishers.ToListAsync();
         }
 
-        public bool SaveChanges()
+        public async Task<Publisher> GetPublisherById(int publisherId)
         {
-            return (_context.SaveChanges() > 0);
+            return await _context.Publishers.FirstOrDefaultAsync(p => p.Id == publisherId);
         }
 
-        public Publisher[] GetAllPublishers()
+        public async Task<Publisher> GetPublisherByName(string publisherName)
         {
-            IQueryable<Publisher> query = _context.Publishers;
-
-            query = query.AsNoTracking().OrderBy(u => u.Id); //pega os usuarios e ordena por id
-            return query.ToArray();
+            return await _context.Publishers.FirstOrDefaultAsync(p => p.Name == publisherName);
         }
 
-        public Publisher GetPublishersById(int PublisherId)
-        {
-            IQueryable<Publisher> query = _context.Publishers;
-
-            query = query.AsNoTracking().OrderBy(u => u.Id).Where(Publisher => Publisher.Id == PublisherId);
-
-            //return query.FirstOrDefault();
-            return query.FirstOrDefault();
-        }
+        // toda vez q usar get pra listar  por return await _context.entidades 
+        // get all->ToListAsync
     }
 }

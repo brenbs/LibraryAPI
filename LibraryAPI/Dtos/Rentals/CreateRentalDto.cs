@@ -4,7 +4,7 @@
     {
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public string RentalDate { get; set; }
-        public string Forecast { get; set; }
+        public DateTime RentalDate { get; set; }
+        public DateTime Forecast { get; set; }
     }
 }

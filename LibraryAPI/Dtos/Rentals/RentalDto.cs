@@ -1,4 +1,5 @@
-﻿using LibraryAPI.Dtos.Users;
+﻿using LibraryAPI.Dtos.Books;
+using LibraryAPI.Dtos.Users;
 
 namespace LibraryAPI.Dtos.Rentals
 {
@@ -8,10 +9,11 @@ namespace LibraryAPI.Dtos.Rentals
         public int UserId { get; set; }
         public UserRentalDto User { get; set; }
         public int BookId { get; set; }
+        public BookRentalDto Book { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime Forecast { get; set; }
         public DateTime Devolution { get; set; }
-        public string Status { get; set; } 
+        public string? Status { get; set; }
 
     }
 }
