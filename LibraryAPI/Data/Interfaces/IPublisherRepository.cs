@@ -7,10 +7,8 @@ namespace LibraryAPI.Data.Interfaces
         Task<Publisher> Add(Publisher publisher);
         Task Update(Publisher publisher);
         Task Delete(Publisher publisher);
-
         Task<ICollection<Publisher>> GetAllPublishers();
         Task <Publisher> GetPublisherById(int publisherId);
-
         Task<Publisher> GetPublisherByName(string publisherName);
 
     }

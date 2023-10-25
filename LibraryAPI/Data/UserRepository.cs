@@ -44,5 +44,10 @@ namespace LibraryAPI.Data
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Name == userName);
         }
+
+        public async Task<User> GetuserByEmail(string userEmail)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+        }
     }
 }

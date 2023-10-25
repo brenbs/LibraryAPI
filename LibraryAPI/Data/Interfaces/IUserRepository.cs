@@ -12,5 +12,7 @@ namespace LibraryAPI.Data.Interfaces
         Task<User> GetuserById(int userId);
 
         Task<User> GetuserByName(string userName);
+
+        Task<User> GetuserByEmail(string userEmail);
     }
 }

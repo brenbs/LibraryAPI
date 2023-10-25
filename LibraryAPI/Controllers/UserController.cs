@@ -34,8 +34,40 @@ namespace LibraryAPI.Controllers
             if (result.IsSucess)
                 return Ok(result);
             return BadRequest(result);
-        }        
-
-        
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetAsync()
+        {
+            var result = await _userService.GetAsync();
+            if (result.IsSucess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult>GetByIdAsync(int id)
+        {
+            var result = await _userService.GetByIdAsync(id);
+            if (result.IsSucess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody] UserDto UserDto)
+        {
+            var result = await _userService.UpdateAsync(UserDto);
+            if (result.IsSucess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            var result = await _userService.DeleteAsync(id);
+            if (result.IsSucess)
+                return Ok(result);
+            return BadRequest(result);
+        }
     }
 }
