@@ -21,6 +21,7 @@ namespace LibraryAPI.Mapp
             CreateMap<Book, CreateBookDto>().ReverseMap();
             CreateMap<Publisher, PublisherBookDto>().ReverseMap();
             CreateMap<Book,BookRentalDto>().ReverseMap();
+            CreateMap<Book, UpdateBookDto>().ReverseMap();
 
 
             //Publsihers

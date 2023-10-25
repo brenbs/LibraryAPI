@@ -21,7 +21,8 @@ namespace LibraryAPI.Services
         public async Task<ResultService> CreateAsync(CreateUserDto createUserDto)
         {
             if (createUserDto == null)
-                return ResultService.Fail< CreateUserDto> ("O objeto deve ser informado");
+                return ResultService.Fail< CreateUserDto> ("Preencha os campos!!");
+
             var result = new UserDtoValidator().Validate(createUserDto);
             if (!result.IsValid)
                 return ResultService.RequestError<CreateUserDto>("Problemas da validade!: ",result);
@@ -31,10 +32,9 @@ namespace LibraryAPI.Services
                 return ResultService.Fail<CreateUserDto>("Email já cadastrado.");
 
             var user = _mapper.Map<User>(createUserDto);
-            var data = await _userRepository.Add(user);
-            return ResultService.Ok(_mapper.Map<CreateUserDto>(data));
+            await _userRepository.Add(user);
+            return ResultService.Ok("Usuário cadastrado.");
         }
-
 
         public async Task<ResultService<ICollection<UserDto>>> GetAsync()
         {
@@ -56,17 +56,17 @@ namespace LibraryAPI.Services
             if (userDto == null)
                 return ResultService.Fail<UserDto>("Usuário não encontrado.");
 
-            var validation = new UpdateUserDtoValidator().Validate(userDto);
-            if (!validation.IsValid)
-                return ResultService.RequestError("Problemas com a validação dos campos", validation);
-
             var user = await _userRepository.GetuserById(userDto.Id);
             if (user == null)
                 return ResultService.Fail<UserDto>("Usuário não encontrado!");
 
+            var validation = new UpdateUserDtoValidator().Validate(userDto);
+            if (!validation.IsValid)
+                return ResultService.RequestError("Problemas com a validação dos campos", validation);
+
             user = _mapper.Map<UserDto,User>(userDto, user);
             await _userRepository.Update(user);
-            return ResultService.Ok("Usuário editado");
+            return ResultService.Ok("Usuário atualizado");
         }
         public async Task<ResultService> DeleteAsync(int id)
         {

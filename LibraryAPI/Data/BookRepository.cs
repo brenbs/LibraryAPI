@@ -43,5 +43,10 @@ namespace LibraryAPI.Data
             return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Id == BookId);
 
         }
+
+        public async Task<Book> GetBooksByName(string Name)
+        {
+            return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Name == Name);
+        }
     }
 }

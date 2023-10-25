@@ -33,8 +33,8 @@ namespace LibraryAPI.Services
                 return ResultService.Fail<CreatePublisherDto>("Editora já existente.");
 
             var publisher = _mapper.Map<Publisher>(createPublisherDto);
-            var data = await _publisherRepository.Add(publisher);
-            return ResultService.Ok(_mapper.Map<CreatePublisherDto>(data));
+            await _publisherRepository.Add(publisher);
+            return ResultService.Ok("Editora cadastrada.");
 
         }
 

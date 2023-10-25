@@ -10,5 +10,7 @@ namespace LibraryAPI.Data.Interfaces
 
         Task <ICollection<Book>> GetAllBooks(); 
         Task <Book> GetBooksById(int BookId);
+
+        Task<Book> GetBooksByName(string Name);
     }
 }
