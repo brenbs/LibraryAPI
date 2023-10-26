@@ -21,8 +21,6 @@ namespace LibraryAPI.Services
 
         public async Task<ResultService> CreateAsync(CreatePublisherDto createPublisherDto)
         {
-            if (createPublisherDto == null)
-                return ResultService.Fail<CreatePublisherDto>("O objeto deve ser informado");
             var result = new PulisherDtoValidator().Validate(createPublisherDto);
             if (!result.IsValid)
                 return ResultService.RequestError<CreatePublisherDto>("Problemas da validade!: ", result);

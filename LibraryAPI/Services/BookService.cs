@@ -20,9 +20,6 @@ namespace LibraryAPI.Services
         }
         public async Task<ResultService> CreateAsync(CreateBookDto createBookDto)
         {
-            if (createBookDto == null)
-                return ResultService.Fail<CreateBookDto>("Preencha os campos!!");
-
             var result = new BookDtoValidator().Validate(createBookDto);
             if (!result.IsValid)
                 return ResultService.RequestError<CreateBookDto>("Problemas de validação!", result);

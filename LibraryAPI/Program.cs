@@ -21,6 +21,7 @@ builder.Services.AddScoped<IRentalRepository, RentalRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IRentalService, RentalService>();
 
 
 builder.Services.AddControllers().AddJsonOptions(options => {
