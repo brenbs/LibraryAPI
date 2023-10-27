@@ -16,13 +16,11 @@ namespace LibraryAPI.Controllers
     public class UserController : ControllerBase
     {
         public readonly IUserRepository _repo;
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
 
-        public UserController(IUserRepository repo, IMapper mapper, IUserService userService)
+        public UserController(IUserRepository repo, IUserService userService)
         {
-            _repo= repo;
-            _mapper = mapper; 
+            _repo= repo; 
             _userService = userService;
         }
 

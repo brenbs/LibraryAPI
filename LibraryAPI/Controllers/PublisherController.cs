@@ -50,7 +50,7 @@ namespace LibraryAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Update([FromBody] PublisherDto publisherDto)
+        public async Task<ActionResult> UpdateAsync([FromBody] PublisherDto publisherDto)
         {
             var result = await _publisherService.UpdateAsync(publisherDto);
             if (result.IsSucess)

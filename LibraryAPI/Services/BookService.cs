@@ -55,11 +55,11 @@ namespace LibraryAPI.Services
 
             var book = await _bookRepository.GetBooksById(updateBookDto.Id);
             if (book == null)
-                return ResultService.Fail<CreateBookDto>("Livro não encontrado!");
+                return ResultService.Fail<UpdateBookDto>("Livro não encontrado!");
 
             var validation = new UpdateBookDtoValidator().Validate(updateBookDto);
             if (!validation.IsValid)
-                return ResultService.RequestError("Problemas de validação!",validation);
+                return ResultService.RequestError(validation);
 
             book = _mapper.Map<UpdateBookDto, Book>(updateBookDto, book);
             await _bookRepository.Update(book);

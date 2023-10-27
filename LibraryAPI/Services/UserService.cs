@@ -12,11 +12,13 @@ namespace LibraryAPI.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IRentalRepository _rentalRepo;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper,IRentalRepository rentalRepo)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _rentalRepo = rentalRepo;
         }
         public async Task<ResultService> CreateAsync(CreateUserDto createUserDto)
         {
@@ -59,7 +61,7 @@ namespace LibraryAPI.Services
 
             var validation = new UpdateUserDtoValidator().Validate(userDto);
             if (!validation.IsValid)
-                return ResultService.RequestError("Problemas com a validação dos campos", validation);
+                return ResultService.RequestError(validation);
 
             user = _mapper.Map<UserDto,User>(userDto, user);
             await _userRepository.Update(user);

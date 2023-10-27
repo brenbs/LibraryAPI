@@ -33,7 +33,7 @@ namespace LibraryAPI.Services
             var publisher = _mapper.Map<Publisher>(createPublisherDto);
             await _publisherRepository.Add(publisher);
             return ResultService.Ok("Editora cadastrada.");
-
+            
         }
 
         public async Task<ResultService<ICollection<PublisherDto>>> GetAsync()
@@ -59,7 +59,7 @@ namespace LibraryAPI.Services
 
             var validation = new UpdatePulisherDtoValidator().Validate(publisherDto);
             if (!validation.IsValid)
-                return ResultService.RequestError("Problemas com a validação dos campos ",validation);
+                return ResultService.RequestError(validation);
 
             var publisher = await _publisherRepository.GetPublisherById(publisherDto.Id);
 

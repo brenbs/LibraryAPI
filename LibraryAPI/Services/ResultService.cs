@@ -10,12 +10,11 @@ namespace LibraryAPI.Services
         public string Message { get; set; }
         public ICollection<ErrorValidation> Errors { get; set; }
 
-        public static ResultService RequestError(string message, ValidationResult validationResult)
+        public static ResultService RequestError( ValidationResult validationResult)
         {
             return new ResultService
             {
                 IsSucess = false,
-                Message = message,
                 Errors = validationResult.Errors.Select(x => new ErrorValidation { Field = x.PropertyName, Message = x.ErrorMessage }).ToList()
             };
         }
