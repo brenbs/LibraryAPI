@@ -87,6 +87,5 @@ namespace LibraryAPI.Services
             await _rentalRepository.Delete(rental);
             return ResultService.Ok("Aluguel deletado com sucesso");
         }
-
     }
 }
