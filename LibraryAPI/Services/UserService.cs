@@ -12,13 +12,13 @@ namespace LibraryAPI.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly IRentalRepository _rentalRepo;
+        private readonly IRentalRepository _rentalRepository;
 
-        public UserService(IUserRepository userRepository, IMapper mapper,IRentalRepository rentalRepo)
+        public UserService(IUserRepository userRepository, IMapper mapper,IRentalRepository rentalRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _rentalRepo = rentalRepo;
+            _rentalRepository = rentalRepository;
         }
         public async Task<ResultService> CreateAsync(CreateUserDto createUserDto)
         {
@@ -38,7 +38,7 @@ namespace LibraryAPI.Services
         public async Task<ResultService<ICollection<UserDto>>> GetAsync()
         {
             var user = await _userRepository.GetAllusers();
-            return ResultService.Ok<ICollection<UserDto>>(_mapper.Map<ICollection<UserDto>>(user));
+            return ResultService.Ok(_mapper.Map<ICollection<UserDto>>(user));
         }
         public async Task<ResultService<UserDto>> GetByIdAsync(int id)
         {
@@ -63,7 +63,11 @@ namespace LibraryAPI.Services
             if (!validation.IsValid)
                 return ResultService.RequestError(validation);
 
-            user = _mapper.Map<UserDto,User>(userDto, user);
+            var sameEmail = await _userRepository.GetuserByEmail(userDto.Email);
+            if (sameEmail != null && sameEmail.Id!= user.Id)
+                return ResultService.Fail<CreateUserDto>("Email já cadastrado.");
+
+            user = _mapper.Map(userDto, user);
             await _userRepository.Update(user);
             return ResultService.Ok("Usuário atualizado");
         }
@@ -72,6 +76,10 @@ namespace LibraryAPI.Services
             var user = await _userRepository.GetuserById(id);
             if (user == null) 
                 return ResultService.Fail<UserDto>("Usuário não encontrado.");
+
+            var rentalUser= await _rentalRepository.GetRentalUser(id);
+            if(rentalUser != null)
+                return ResultService.Fail<UserDto>("Usuário associado a aluguéis.");
 
             await _userRepository.Delete(user);
             return ResultService.Ok("O Usuário foi deletado.");

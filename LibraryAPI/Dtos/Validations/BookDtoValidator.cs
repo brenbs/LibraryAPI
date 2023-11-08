@@ -34,13 +34,13 @@ namespace LibraryAPI.Dtos.Validations
             .WithMessage("Nome ncessário!");
         RuleFor(x => x.Autor)
             .NotEmpty()
-            .WithMessage("Email inválido!");
+            .WithMessage("Autor necessário!");
         RuleFor(x => x.PublisherId)
             .NotEmpty()
-            .WithMessage("Endereço ncessário!");
+            .WithMessage("Editora ncessária!");
         RuleFor(x => x.Realese)
             .NotEmpty()
-            .WithMessage("Cidade ncessária!");
+            .WithMessage("Ano de lançamento ncessária!");
             RuleFor(x => x.Stock)
             .NotEmpty()
             .WithMessage("Estoque ncessário!");

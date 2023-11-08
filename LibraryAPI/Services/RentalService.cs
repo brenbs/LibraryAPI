@@ -21,9 +21,9 @@ namespace LibraryAPI.Services
 
         public async Task<ResultService> CreateAsync(CreateRentalDto createRentalDto)
         {
-            var result = new RentalDtoValidator().Validate(createRentalDto);
-            if (!result.IsValid)
-                return ResultService.RequestError<CreateRentalDto>("Problemas com a validação", result);
+            var validation = new RentalDtoValidator().Validate(createRentalDto);
+            if (!validation.IsValid)
+                return ResultService.RequestError<CreateRentalDto>("Problemas com a validação", validation);
 
             var rental = _mapper.Map<Rental>(createRentalDto);
 
@@ -71,10 +71,9 @@ namespace LibraryAPI.Services
             {
                 rental.Status = "Em atraso";
             }
-            rental = _mapper.Map<UpdateRentalDto, Rental>(updateRentalDto, rental);
+            rental = _mapper.Map(updateRentalDto, rental);
             await _rentalRepository.Update(rental);
 
-                
             return ResultService.Ok("Aluguel atualizado com sucesso");
         }
 

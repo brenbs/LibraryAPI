@@ -12,5 +12,9 @@ namespace LibraryAPI.Data.Interfaces
         Task <Book> GetBooksById(int BookId);
 
         Task<Book> GetBooksByName(string Name);
+
+        Task<Book> GetSameBook(string Name,int BookId);
+
+        Task<List<Book>> GetPublisherAssociate(int publisherId);
     }
 }

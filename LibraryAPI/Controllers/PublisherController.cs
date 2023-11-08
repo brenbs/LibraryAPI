@@ -50,6 +50,7 @@ namespace LibraryAPI.Controllers
         }
 
         [HttpPut]
+        [Route("{id}")]
         public async Task<ActionResult> UpdateAsync([FromBody] PublisherDto publisherDto)
         {
             var result = await _publisherService.UpdateAsync(publisherDto);
@@ -57,6 +58,7 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)

@@ -48,5 +48,15 @@ namespace LibraryAPI.Data
         {
             return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Name == Name);
         }
+
+        public async Task<Book> GetSameBook(string Name,int BookId)
+        {
+            return await _context.Books.Include(b => b.Publisher).FirstOrDefaultAsync(b => b.Name == Name && b.Id == BookId);
+        }
+
+        public async Task<List<Book>> GetPublisherAssociate(int publisherId)
+        {
+            return await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
+        }
     }
 }
