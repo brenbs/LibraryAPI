@@ -39,10 +39,10 @@ namespace LibraryAPI.Services
             if (book == null)
                 return ResultService.Fail<UserDto>("Livro não encontrado!");
 
-            if(createRentalDto.RentalDate!= DateTime.Now)
+            if(createRentalDto.RentalDate.Date!= DateTime.Now.Date)
                 return ResultService.Fail<UserDto>("A data de aluguél só pode ser a de hoje!");
 
-            var diff = createRentalDto.ForecastDate.Subtract(DateTime.Now);
+            var diff = createRentalDto.ForecastDate.Date.Subtract(DateTime.Now.Date);
             if (diff.Days > 30)
             {
                 return ResultService.Fail<CreateRentalDto>("A data de previsão deve ser máximo 30 dias.");
