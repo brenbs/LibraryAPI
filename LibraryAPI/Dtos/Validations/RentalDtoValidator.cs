@@ -16,7 +16,7 @@ namespace LibraryAPI.Dtos.Validations
             RuleFor(x => x.RentalDate)
                 .NotEmpty()
                 .WithMessage("Data de aluguel necessária!");
-            RuleFor(x => x.Forecast)
+            RuleFor(x => x.ForecastDate)
                 .NotEmpty()
                 .WithMessage("Data de prevista de entrega necessária!");
         }
@@ -29,7 +29,7 @@ namespace LibraryAPI.Dtos.Validations
             RuleFor(x => x.Id)
                 .NotEmpty()
                 .WithMessage("Id necessário!");
-            RuleFor(x => x.Devolution)
+            RuleFor(x => x.DevolutionDate)
                 .NotEmpty()
                 .WithMessage("Data de devolução necessária!");
         }

@@ -11,8 +11,8 @@ namespace LibraryAPI.Dtos.Rentals
         public int BookId { get; set; }
         public BookRentalDto Book { get; set; }
         public DateTime RentalDate { get; set; }
-        public DateTime Forecast { get; set; }
-        public DateTime Devolution { get; set; }
+        public DateTime ForecastDate { get; set; }
+        public DateTime DevolutionDate { get; set; }
         public string? Status { get; set; }
 
     }

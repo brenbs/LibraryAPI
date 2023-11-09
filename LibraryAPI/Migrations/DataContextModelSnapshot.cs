@@ -154,10 +154,10 @@ namespace LibraryAPI.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Devolution")
+                    b.Property<DateTime>("DevolutionDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Forecast")
+                    b.Property<DateTime>("ForecastDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("RentalDate")

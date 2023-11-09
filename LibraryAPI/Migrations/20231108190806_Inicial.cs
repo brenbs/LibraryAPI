@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LibraryAPI.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,8 +71,8 @@ namespace LibraryAPI.Migrations
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     RentalDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Forecast = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Devolution = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ForecastDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DevolutionDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Status = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
