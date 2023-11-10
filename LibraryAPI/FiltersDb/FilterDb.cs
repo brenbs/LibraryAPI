@@ -2,7 +2,7 @@
 
 namespace LibraryAPI.FiltersDb
 {
-    public class PublisherFilterDb:PagedBaseRequest
+    public class FilterDb:PagedBaseRequest
     {
         public string? SearchValue  { get; set; }
     }

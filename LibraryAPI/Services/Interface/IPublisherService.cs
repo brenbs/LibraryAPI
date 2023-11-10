@@ -11,6 +11,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService<PublisherDto>> GetByIdAsync(int id);
         Task<ResultService> UpdateAsync(PublisherDto publisherDto);
         Task<ResultService> DeleteAsync(int id);
-        Task<ResultService<PagedBaseResponseDto<PublisherDto>>> GetPagedAsync(PublisherFilterDb publisherFilterDb);
+        Task<ResultService<PagedBaseResponseDto<PublisherDto>>> GetPagedAsync(FilterDb publisherFilterDb);
     }
 }

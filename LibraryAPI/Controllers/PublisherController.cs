@@ -71,7 +71,7 @@ namespace LibraryAPI.Controllers
         }
         [HttpGet]
         [Route("paged")]
-        public async Task<ActionResult> GetPagedAsync([FromQuery] PublisherFilterDb publisherFilterDb)
+        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb publisherFilterDb)
         {
             var result = await _publisherService.GetPagedAsync(publisherFilterDb);
             if (result.IsSucess)

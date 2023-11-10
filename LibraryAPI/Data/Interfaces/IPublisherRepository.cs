@@ -11,6 +11,6 @@ namespace LibraryAPI.Data.Interfaces
         Task<ICollection<Publisher>> GetAllPublishers();
         Task<Publisher> GetPublisherById(int publisherId);
         Task<Publisher> GetPublisherByName(string publisherName);
-        Task<PagedBaseResponse<Publisher>> GetPagedAsync(PublisherFilterDb request);
+        Task<PagedBaseResponse<Publisher>> GetPagedAsync(FilterDb request);
     }
 }

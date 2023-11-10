@@ -46,17 +46,16 @@ namespace LibraryAPI.Data
             return await _context.Publishers.FirstOrDefaultAsync(p => p.Name == publisherName);
         }
 
-        public async Task<PagedBaseResponse<Publisher>> GetPagedAsync(PublisherFilterDb request)
+        public async Task<PagedBaseResponse<Publisher>> GetPagedAsync(FilterDb request)
         {
             var publisher = _context.Publishers.AsQueryable();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
               var ignore = request.SearchValue.ToLower();
                             publisher = publisher.Where(x => x.Name.ToLower().Contains(request.SearchValue)||
-                            x.City.ToLower().Contains(request.SearchValue)||
-                            x.Id.ToString().Contains(request.SearchValue));
+                            x.City.ToLower().Contains(ignore)||
+                            x.Id.ToString().Contains(ignore));
             }
-              
              
             return await PagedBaseResponseHelper
                 .GetResponseAsync<PagedBaseResponse<Publisher>, Publisher>(publisher, request);

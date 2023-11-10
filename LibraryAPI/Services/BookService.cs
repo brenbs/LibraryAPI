@@ -3,6 +3,7 @@ using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Books;
 using LibraryAPI.Dtos.Validations;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using LibraryAPI.Services.Interface;
 
@@ -84,6 +85,11 @@ namespace LibraryAPI.Services
 
             await _bookRepository.Delete(book);
             return ResultService.Ok("Livro deletado.");
+        }
+
+        public async Task<PagedBaseResponse<Publisher>> GetPagedAsync(FilterDb request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
