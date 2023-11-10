@@ -84,7 +84,7 @@ namespace LibraryAPI.Services
                 return ResultService.RequestError(validation);
 
 
-            if (updateRentalDto.DevolutionDate != DateTime.Now)
+            if (updateRentalDto.DevolutionDate.Date != DateTime.Now.Date)
                 return ResultService.Fail<UpdateRentalDto>("O livro só pode ser devolvido no dia atual!");
 
             if (rental.ForecastDate.Date >=rental.DevolutionDate.Date)
