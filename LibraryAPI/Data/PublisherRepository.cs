@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Data.Interfaces;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +46,20 @@ namespace LibraryAPI.Data
             return await _context.Publishers.FirstOrDefaultAsync(p => p.Name == publisherName);
         }
 
-        // toda vez q usar get pra listar  por return await _context.entidades 
-        // get all->ToListAsync
+        public async Task<PagedBaseResponse<Publisher>> GetPagedAsync(PublisherFilterDb request)
+        {
+            var publisher = _context.Publishers.AsQueryable();
+            if (!string.IsNullOrEmpty(request.SearchValue))
+            {
+              var ignore = request.SearchValue.ToLower();
+                            publisher = publisher.Where(x => x.Name.ToLower().Contains(request.SearchValue)||
+                            x.City.ToLower().Contains(request.SearchValue)||
+                            x.Id.ToString().Contains(request.SearchValue));
+            }
+              
+             
+            return await PagedBaseResponseHelper
+                .GetResponseAsync<PagedBaseResponse<Publisher>, Publisher>(publisher, request);
+        }
     }
 }

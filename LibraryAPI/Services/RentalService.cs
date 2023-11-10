@@ -100,15 +100,5 @@ namespace LibraryAPI.Services
 
             return ResultService.Ok("Aluguel atualizado com sucesso!");
         }
-
-        public async Task<ResultService> DeleteAsync(int id)
-        {
-            var rental = await _rentalRepository.GetRentalsById(id);
-            if (rental == null)
-                return ResultService.Fail<RentalDto>("Aluguel não encontrado!");
-
-            await _rentalRepository.Delete(rental);
-            return ResultService.Ok("Aluguel deletado com sucesso1");
-        }
     }
 }

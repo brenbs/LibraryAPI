@@ -54,14 +54,5 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task<ActionResult> DeleteAsync(int id)
-        {
-            var result = await _rentalService.DeleteAsync(id);
-            if (result.IsSucess)
-                return Ok(result);
-            return BadRequest(result);
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using LibraryAPI.Models;
+﻿using LibraryAPI.FiltersDb;
+using LibraryAPI.Models;
 
 namespace LibraryAPI.Data.Interfaces
 {
@@ -8,8 +9,8 @@ namespace LibraryAPI.Data.Interfaces
         Task Update(Publisher publisher);
         Task Delete(Publisher publisher);
         Task<ICollection<Publisher>> GetAllPublishers();
-        Task <Publisher> GetPublisherById(int publisherId);
+        Task<Publisher> GetPublisherById(int publisherId);
         Task<Publisher> GetPublisherByName(string publisherName);
-
+        Task<PagedBaseResponse<Publisher>> GetPagedAsync(PublisherFilterDb request);
     }
 }

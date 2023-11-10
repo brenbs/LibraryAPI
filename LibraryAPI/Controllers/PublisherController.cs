@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Publishers;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -68,5 +69,16 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return BadRequest(result);
         }
+        [HttpGet]
+        [Route("paged")]
+        public async Task<ActionResult> GetPagedAsync([FromQuery] PublisherFilterDb publisherFilterDb)
+        {
+            var result = await _publisherService.GetPagedAsync(publisherFilterDb);
+            if (result.IsSucess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
     }
 }

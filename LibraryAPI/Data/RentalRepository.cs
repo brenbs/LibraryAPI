@@ -26,12 +26,6 @@ namespace LibraryAPI.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(Rental rental)
-        {
-            _context.Remove(rental);
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<ICollection<Rental>> GetAllRentals()
         {
             return await _context.Rentals.Include(r => r.User).Include(r => r.Book).ToListAsync();
