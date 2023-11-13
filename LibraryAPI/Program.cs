@@ -36,11 +36,20 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()) ;
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost8080",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:8080")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
-
-
-
+app.UseCors("AllowLocalhost8080");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
