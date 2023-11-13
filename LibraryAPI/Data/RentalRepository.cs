@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Data.Interfaces;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,6 +47,22 @@ namespace LibraryAPI.Data
         public async Task<Rental> GetRentalBook(int bookId)
         {
             return await _context.Rentals.Where(r => r.BookId == bookId).FirstOrDefaultAsync();
+        }
+
+        public async Task<PagedBaseResponse<Rental>> GetPagedAsync(FilterDb request)
+        {
+            var rental = _context.Rentals.AsQueryable();
+            if (!string.IsNullOrEmpty(request.SearchValue))
+            {
+                var ignore = request.SearchValue.ToLower();
+                rental = rental.Where(x => x.UserId.ToString()
+                .Contains(request.SearchValue) ||
+                x.BookId.ToString().Contains(ignore)||
+                x.Status.ToLower().Contains(ignore)||
+                x.Id.ToString().Contains(ignore));
+            }
+            return await PagedBaseResponseHelper
+                .GetResponseAsync<PagedBaseResponse<Rental>, Rental>(rental, request);
         }
     }
 }

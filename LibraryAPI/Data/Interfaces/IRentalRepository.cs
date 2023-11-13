@@ -1,4 +1,5 @@
-﻿using LibraryAPI.Models;
+﻿using LibraryAPI.FiltersDb;
+using LibraryAPI.Models;
 
 namespace LibraryAPI.Data.Interfaces
 {
@@ -11,5 +12,6 @@ namespace LibraryAPI.Data.Interfaces
         Task<Rental> GetBookUser(int userId, int bookId);
         Task<Rental> GetRentalUser(int userId);
         Task<Rental> GetRentalBook(int bookId);
+        Task<PagedBaseResponse<Rental>> GetPagedAsync(FilterDb request);
     }
 }

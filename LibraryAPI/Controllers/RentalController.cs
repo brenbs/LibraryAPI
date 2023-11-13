@@ -1,6 +1,8 @@
 ﻿using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Dtos.Rentals;
+using LibraryAPI.FiltersDb;
+using LibraryAPI.Services;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +54,16 @@ namespace LibraryAPI.Controllers
             var result = await _rentalService.UpdateAsync(updateRentalDto);
             if (result.IsSucess)
                 return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet]
+        [Route("paged")]
+        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
+        {
+            var result = await _rentalService.GetPagedAsync(request);
+            if (result.IsSucess)
+                return Ok(result);
+
             return BadRequest(result);
         }
     }

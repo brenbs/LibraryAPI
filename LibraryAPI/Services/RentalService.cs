@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Dtos;
+using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Dtos.Rentals;
 using LibraryAPI.Dtos.Users;
 using LibraryAPI.Dtos.Validations;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using LibraryAPI.Services.Interface;
 using System.Reflection.Metadata.Ecma335;
@@ -73,6 +76,7 @@ namespace LibraryAPI.Services
             return ResultService.Ok(_mapper.Map<RentalDto>(rental));
         }
 
+
         public async Task<ResultService> UpdateAsync(UpdateRentalDto updateRentalDto)
         {
             var rental = await _rentalRepository.GetRentalsById(updateRentalDto.Id);
@@ -99,6 +103,13 @@ namespace LibraryAPI.Services
             await _rentalRepository.Update(rental);
 
             return ResultService.Ok("Aluguel atualizado com sucesso!");
+        }
+        public async Task<ResultService<PagedBaseResponseDto<RentalDto>>> GetPagedAsync(FilterDb request)
+        {
+            var rentalPaged = await _rentalRepository.GetPagedAsync(request);
+            var result = new PagedBaseResponseDto<RentalDto>(rentalPaged.TotalRegisters,
+                                         _mapper.Map<List<RentalDto>>(rentalPaged.Data));
+            return ResultService.Ok(result);
         }
     }
 }
