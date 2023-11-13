@@ -87,11 +87,11 @@ namespace LibraryAPI.Services
             return ResultService.Ok("Editora foi deletada");
         }
         
-        public async Task<ResultService<PagedBaseResponseDto<PublisherDto>>> GetPagedAsync(FilterDb publisherFilterDb)
+        public async Task<ResultService<PagedBaseResponseDto<PublisherDto>>> GetPagedAsync(FilterDb request)
         {
-           var publisherPaged = await _publisherRepository.GetPagedAsync(publisherFilterDb);
+           var publisherPaged = await _publisherRepository.GetPagedAsync(request);
            var result = new PagedBaseResponseDto<PublisherDto>(publisherPaged.TotalRegisters,
-                                                               _mapper.Map<List<PublisherDto>>(publisherPaged.Data));
+                                        _mapper.Map<List<PublisherDto>>(publisherPaged.Data));
             return ResultService.Ok(result);
         }
     }

@@ -2,6 +2,7 @@
 using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Users;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using LibraryAPI.Services;
 using LibraryAPI.Services.Interface;
@@ -65,6 +66,16 @@ namespace LibraryAPI.Controllers
             var result = await _userService.DeleteAsync(id);
             if (result.IsSucess)
                 return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet]
+        [Route("paged")]
+        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
+        {
+            var result = await _userService.GetPagedAsync(request);
+            if (result.IsSucess)
+                return Ok(result);
+
             return BadRequest(result);
         }
     }

@@ -52,11 +52,11 @@ namespace LibraryAPI.Data
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
               var ignore = request.SearchValue.ToLower();
-                            publisher = publisher.Where(x => x.Name.ToLower().Contains(request.SearchValue)||
+                            publisher = publisher.Where(x => x.Name.ToLower()
+                            .Contains(request.SearchValue)||
                             x.City.ToLower().Contains(ignore)||
                             x.Id.ToString().Contains(ignore));
             }
-             
             return await PagedBaseResponseHelper
                 .GetResponseAsync<PagedBaseResponse<Publisher>, Publisher>(publisher, request);
         }

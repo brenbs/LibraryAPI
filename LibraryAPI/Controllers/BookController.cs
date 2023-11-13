@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Books;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,6 +66,16 @@ namespace LibraryAPI.Controllers
             var result = await _bookService.DeleteAsync(id);
             if (result.IsSucess)
                 return Ok(result);
+            return BadRequest(result);
+        }
+        [HttpGet]
+        [Route("paged")]
+        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
+        {
+            var result = await _bookService.GetPagedAsync(request);
+            if (result.IsSucess)
+                return Ok(result);
+
             return BadRequest(result);
         }
     }

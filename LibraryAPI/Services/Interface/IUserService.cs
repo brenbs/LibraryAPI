@@ -1,4 +1,6 @@
-﻿using LibraryAPI.Dtos.Users;
+﻿using LibraryAPI.Dtos;
+using LibraryAPI.Dtos.Users;
+using LibraryAPI.FiltersDb;
 
 namespace LibraryAPI.Services.Interface
 {
@@ -9,5 +11,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService<UserDto>> GetByIdAsync(int id);
         Task<ResultService> UpdateAsync(UserDto userDto);
         Task<ResultService> DeleteAsync(int id);
+        Task<ResultService<PagedBaseResponseDto<UserDto>>> GetPagedAsync(FilterDb request);
     }
 }

@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Dtos;
+using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Dtos.Users;
 using LibraryAPI.Dtos.Validations;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using LibraryAPI.Services.Interface;
 using System.Reflection.Metadata.Ecma335;
@@ -83,6 +87,14 @@ namespace LibraryAPI.Services
 
             await _userRepository.Delete(user);
             return ResultService.Ok("O Usuário foi deletado.");
+        }
+
+        public async Task<ResultService<PagedBaseResponseDto<UserDto>>> GetPagedAsync(FilterDb request)
+        {
+            var userPaged = await _userRepository.GetPagedAsync(request);
+            var result = new PagedBaseResponseDto<UserDto>(userPaged.TotalRegisters,
+                                         _mapper.Map<List<UserDto>>(userPaged.Data));
+            return ResultService.Ok(result);
         }
     }
 }

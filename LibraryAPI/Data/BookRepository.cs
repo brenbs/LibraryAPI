@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Data.Interfaces;
+using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -57,6 +58,23 @@ namespace LibraryAPI.Data
         public async Task<List<Book>> GetPublisherAssociate(int publisherId)
         {
             return await _context.Books.Where(b => b.PublisherId == publisherId).ToListAsync();
+        }
+
+        public async Task<PagedBaseResponse<Book>> GetPagedAsync(FilterDb request)
+        {
+            var book = _context.Books.AsQueryable();
+            if (!string.IsNullOrEmpty(request.SearchValue))
+            {
+                var ignore = request.SearchValue.ToLower();
+                              book = book.Where(x => x.Name.ToLower()
+                              .Contains(request.SearchValue)||
+                              x.Autor.ToLower().Contains(ignore) ||
+                              x.Stock.ToString().Contains(ignore)||
+                              x.PublisherId.ToString().Contains(ignore)||
+                              x.Id.ToString().Contains(ignore));
+            }
+            return await PagedBaseResponseHelper
+                .GetResponseAsync<PagedBaseResponse<Book>, Book>(book, request);
         }
     }
 }

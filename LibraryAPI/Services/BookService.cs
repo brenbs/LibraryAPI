@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
+using LibraryAPI.Dtos;
 using LibraryAPI.Dtos.Books;
 using LibraryAPI.Dtos.Validations;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 using LibraryAPI.Services.Interface;
+using System.Net.WebSockets;
 
 namespace LibraryAPI.Services
 {
@@ -87,9 +89,12 @@ namespace LibraryAPI.Services
             return ResultService.Ok("Livro deletado.");
         }
 
-        public async Task<PagedBaseResponse<Publisher>> GetPagedAsync(FilterDb request)
+        public async Task<ResultService<PagedBaseResponseDto<BookDto>>> GetPagedAsync(FilterDb request)
         {
-            throw new NotImplementedException();
+            var bookPaged = await _bookRepository.GetPagedAsync(request);
+            var result = new PagedBaseResponseDto<BookDto>(bookPaged.TotalRegisters,
+                                          _mapper.Map<List<BookDto>>(bookPaged.Data));
+            return ResultService.Ok(result);
         }
     }
 }
