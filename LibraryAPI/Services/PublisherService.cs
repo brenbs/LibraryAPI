@@ -26,11 +26,11 @@ namespace LibraryAPI.Services
         {
             var validation = new PulisherDtoValidator().Validate(createPublisherDto);
             if (!validation.IsValid)
-                return ResultService.RequestError<CreatePublisherDto>("Problemas da validade!: ", validation);
+                return ResultService.BadRequest(validation);
 
             var sameName = await _publisherRepository.GetPublisherByName(createPublisherDto.Name);
             if (sameName != null)
-                return ResultService.Fail<CreatePublisherDto>("Editora já existente.");
+                return ResultService.BadRequest("Editora já existente.");
 
             var publisher = _mapper.Map<Publisher>(createPublisherDto);
             await _publisherRepository.Add(publisher);
@@ -49,7 +49,7 @@ namespace LibraryAPI.Services
             var publisher = await _publisherRepository.GetPublisherById(id);
             if (publisher == null)
             {
-                return ResultService.Fail<PublisherDto>("Editora não encontrada!");
+                return ResultService.NotFound<PublisherDto>("Editora não encontrada.");
             }
             return ResultService.Ok(_mapper.Map<PublisherDto>(publisher));
         }
@@ -58,15 +58,15 @@ namespace LibraryAPI.Services
         {
             var publisher = await _publisherRepository.GetPublisherById(publisherDto.Id);
             if (publisher == null)
-                return ResultService.Fail<PublisherDto>("Editora não encontrada.");
+                return ResultService.NotFound("Editora não encontrada.");
 
             var validation = new UpdatePulisherDtoValidator().Validate(publisherDto);
             if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+                return ResultService.BadRequest(validation);
 
             var sameName = await _publisherRepository.GetPublisherByName(publisherDto.Name);
             if (sameName != null && sameName.Id != publisher.Id)
-                return ResultService.Fail<CreatePublisherDto>("Editora já existente.");
+                return ResultService.BadRequest("Editora já existente.");
 
             publisher = _mapper.Map(publisherDto, publisher);
             await _publisherRepository.Update(publisher);
@@ -77,11 +77,11 @@ namespace LibraryAPI.Services
         {
             var publisher = await _publisherRepository.GetPublisherById(id);
             if (publisher == null)
-                return ResultService.Fail<PublisherDto>("Editora não encontrado.");
+                return ResultService.NotFound("Editora não encontrado.");
 
             var bookAssociation = await _bookRepository.GetPublisherAssociate(id);
             if (bookAssociation.Count > 0)
-                return ResultService.Fail<PublisherDto>("Editora está associada a livros.");
+                return ResultService.BadRequest("Editora está associada a livros.");
 
             await _publisherRepository.Delete(publisher);
             return ResultService.Ok("Editora foi deletada");

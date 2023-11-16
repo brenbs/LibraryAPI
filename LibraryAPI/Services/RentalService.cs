@@ -32,23 +32,23 @@ namespace LibraryAPI.Services
         {
             var validation = new RentalDtoValidator().Validate(createRentalDto);
             if (!validation.IsValid)
-                return ResultService.RequestError<CreateRentalDto>("Problemas com a validação", validation);
+                return ResultService.BadRequest(validation);
 
             var user = await _userRepository.GetuserById(createRentalDto.UserId);
             if (user == null)
-                return ResultService.Fail<UserDto>("Usuário não encontrado!");
+                return ResultService.NotFound("Usuário não encontrado!");
 
             var book = await _bookRepository.GetBooksById(createRentalDto.BookId);
             if (book == null)
-                return ResultService.Fail<UserDto>("Livro não encontrado!");
+                return ResultService.NotFound("Livro não encontrado!");
 
             if(createRentalDto.RentalDate.Date!= DateTime.Now.Date)
-                return ResultService.Fail<UserDto>("A data de aluguél só pode ser a de hoje!");
+                return ResultService.BadRequest("A data de aluguél só pode ser a de hoje!");
 
             var diff = createRentalDto.ForecastDate.Date.Subtract(DateTime.Now.Date);
             if (diff.Days > 30)
             {
-                return ResultService.Fail<CreateRentalDto>("A data de previsão deve ser máximo 30 dias.");
+                return ResultService.BadRequest("A data de previsão deve ser máximo 30 dias.");
             }
 
             var rental = _mapper.Map<Rental>(createRentalDto);
@@ -57,7 +57,7 @@ namespace LibraryAPI.Services
 
             var sameRental = await _rentalRepository.GetBookUser(createRentalDto.BookId, createRentalDto.UserId);
             if (sameRental != null && rental.Status == "Pendente")
-                return ResultService.Fail<CreateRentalDto>("O usuário não pode alugar o mesmo livro");
+                return ResultService.BadRequest("O usuário não pode alugar o mesmo livro");
 
             await _rentalRepository.Add(rental);
             return ResultService.Ok("Aluguel cadastrado");
@@ -72,7 +72,7 @@ namespace LibraryAPI.Services
         {
             var rental = await _rentalRepository.GetRentalsById(id);
             if (rental == null)
-                return ResultService.Fail<RentalDto>("Aluguel não encontrado!");
+                return ResultService.NotFound<RentalDto>("Aluguel não encontrado!");
             return ResultService.Ok(_mapper.Map<RentalDto>(rental));
         }
 
@@ -81,15 +81,15 @@ namespace LibraryAPI.Services
         {
             var rental = await _rentalRepository.GetRentalsById(updateRentalDto.Id);
             if (rental == null)
-                return ResultService.Fail<UpdateRentalDto>("Aluguel não encontrado!");
+                return ResultService.NotFound("Aluguel não encontrado!");
 
             var validation = new UpdateRentalDtoValidator().Validate(updateRentalDto);
             if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+                return ResultService.BadRequest(validation);
 
 
             if (updateRentalDto.DevolutionDate.Date != DateTime.Now.Date)
-                return ResultService.Fail<UpdateRentalDto>("O livro só pode ser devolvido no dia atual!");
+                return ResultService.BadRequest("O livro só pode ser devolvido no dia atual!");
 
             if (rental.ForecastDate.Date >=rental.DevolutionDate.Date)
             {

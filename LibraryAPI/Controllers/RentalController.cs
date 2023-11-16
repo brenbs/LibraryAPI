@@ -5,6 +5,7 @@ using LibraryAPI.FiltersDb;
 using LibraryAPI.Services;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LibraryAPI.Controllers
 {
@@ -26,34 +27,42 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Post([FromBody] CreateRentalDto createRentalDto)
         {
           var result = await _rentalService.CreateAsync(createRentalDto);
-            if (result.IsSucess)
-                return Ok(result);
-            return BadRequest(result);  
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
+            return BadRequest(result);
         }
 
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
             var result = await _rentalService.GetAsync();
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult> GetByIdAsync(int id)
         {
             var result = await _rentalService.GetByIdAsync(id);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         [HttpPut]
         public async Task<ActionResult> UpdateAsnc([FromBody] UpdateRentalDto updateRentalDto)
         {
             var result = await _rentalService.UpdateAsync(updateRentalDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
         [HttpGet]
@@ -61,10 +70,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
         {
             var result = await _rentalService.GetPagedAsync(request);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-
-            return BadRequest(result);
+            return NotFound(result);
         }
     }
 }

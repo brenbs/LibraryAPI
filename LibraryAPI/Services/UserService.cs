@@ -28,11 +28,11 @@ namespace LibraryAPI.Services
         {
             var result = new UserDtoValidator().Validate(createUserDto);
             if (!result.IsValid)
-                return ResultService.RequestError<CreateUserDto>("Problemas da validade!: ",result);
+                return ResultService.BadRequest(result);
 
             var sameEmail = await _userRepository.GetuserByEmail(createUserDto.Email);
             if (sameEmail != null)
-                return ResultService.Fail<CreateUserDto>("Email já cadastrado.");
+                return ResultService.BadRequest("Email já cadastrado.");
 
             var user = _mapper.Map<User>(createUserDto);
             await _userRepository.Add(user);
@@ -49,27 +49,24 @@ namespace LibraryAPI.Services
             var user = await _userRepository.GetuserById(id);
             if(user == null)
             {
-                return ResultService.Fail<UserDto>("Usuário não encontrado");
+                return ResultService.NotFound<UserDto>("Usuário não encontrado");
             }
             return ResultService.Ok(_mapper.Map<UserDto>(user));
         }
 
         public async Task<ResultService> UpdateAsync(UserDto userDto)
         {
-            if (userDto == null)
-                return ResultService.Fail<UserDto>("Usuário não encontrado.");
-
             var user = await _userRepository.GetuserById(userDto.Id);
             if (user == null)
-                return ResultService.Fail<UserDto>("Usuário não encontrado!");
+                return ResultService.NotFound("Usuário não encontrado!");
 
             var validation = new UpdateUserDtoValidator().Validate(userDto);
             if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+                return ResultService.BadRequest(validation);
 
             var sameEmail = await _userRepository.GetuserByEmail(userDto.Email);
             if (sameEmail != null && sameEmail.Id!= user.Id)
-                return ResultService.Fail<CreateUserDto>("Email já cadastrado.");
+                return ResultService.BadRequest("Email já cadastrado.");
 
             user = _mapper.Map(userDto, user);
             await _userRepository.Update(user);
@@ -79,11 +76,11 @@ namespace LibraryAPI.Services
         {
             var user = await _userRepository.GetuserById(id);
             if (user == null) 
-                return ResultService.Fail<UserDto>("Usuário não encontrado.");
+                return ResultService.NotFound<UserDto>("Usuário não encontrado.");
 
             var rentalUser= await _rentalRepository.GetRentalUser(id);
             if(rentalUser != null)
-                return ResultService.Fail<UserDto>("Usuário associado a aluguéis.");
+                return ResultService.BadRequest("Usuário associado a aluguéis.");
 
             await _userRepository.Delete(user);
             return ResultService.Ok("O Usuário foi deletado.");

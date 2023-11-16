@@ -4,6 +4,7 @@ using LibraryAPI.Dtos.Books;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LibraryAPI.Controllers
 {
@@ -25,8 +26,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Post([FromBody]CreateBookDto createBookDto)
         {
             var result = await _bookService.CreateAsync(createBookDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
 
@@ -34,9 +39,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetAsync()
         {
             var result = await _bookService.GetAsync();
-                if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
 
         [HttpGet]
@@ -44,9 +49,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetByIdAsync(int id)
         {
             var result = await _bookService.GetByIdAsync(id);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
 
         [HttpPut]
@@ -54,8 +59,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Update([FromBody] UpdateBookDto updateBookDto)
         {
             var result = await _bookService.UpdateAsync(updateBookDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
 
@@ -64,8 +73,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             var result = await _bookService.DeleteAsync(id);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
         [HttpGet]
@@ -73,10 +86,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
         {
             var result = await _bookService.GetPagedAsync(request);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-
-            return BadRequest(result);
+            return NotFound(result);
         }
     }
 }

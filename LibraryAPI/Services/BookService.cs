@@ -27,14 +27,14 @@ namespace LibraryAPI.Services
         {
             var validation = new BookDtoValidator().Validate(createBookDto);
             if (!validation.IsValid)
-                return ResultService.RequestError<CreateBookDto>("Problemas de validação!", validation);
+                return ResultService.BadRequest( validation);
 
             var sameName = await _bookRepository.GetBooksByName(createBookDto.Name);
             if (sameName != null)
-                return ResultService.Fail<CreateBookDto>("Livro já cadastrado!");
+                return ResultService.BadRequest("Livro já cadastrado!");
 
             if(createBookDto.Realese>DateTime.Now.Year)
-                return ResultService.Fail<CreateBookDto>("Ano inválido");
+                return ResultService.BadRequest("Ano inválido");
 
             var book = _mapper.Map<Book>(createBookDto);
             await _bookRepository.Add(book);
@@ -51,7 +51,7 @@ namespace LibraryAPI.Services
         {
             var book = await _bookRepository.GetBooksById(id);
             if (book == null)
-                return ResultService.Fail<BookDto>("Livro não encontrado");
+                return ResultService.NotFound<BookDto>("Livro não encontrado");
 
             return ResultService.Ok(_mapper.Map<BookDto>(book));
         }
@@ -60,15 +60,15 @@ namespace LibraryAPI.Services
         {
             var book = await _bookRepository.GetBooksById(updateBookDto.Id);
             if (book == null)
-                return ResultService.Fail<UpdateBookDto>("Livro não encontrado!");
+                return ResultService.NotFound("Livro não encontrado!");
 
             var validation = new UpdateBookDtoValidator().Validate(updateBookDto);
             if (!validation.IsValid)
-                return ResultService.RequestError(validation);
+                return ResultService.BadRequest(validation);
 
             var sameName = await _bookRepository.GetBooksByName(updateBookDto.Name);
             if (sameName != null && sameName.Id!= updateBookDto.Id)
-                return ResultService.Fail<CreateBookDto>("Livro já cadastrado!");
+                return ResultService.BadRequest("Livro já cadastrado!");
 
             book = _mapper.Map(updateBookDto, book);
             await _bookRepository.Update(book);
@@ -79,11 +79,11 @@ namespace LibraryAPI.Services
         {
             var book = await _bookRepository.GetBooksById(id);
             if (book == null)
-                return ResultService.Fail<BookDto>("Livro não encontrado");
+                return ResultService.NotFound("Livro não encontrado");
 
             var bookRental = await _rentalRepo.GetRentalBook(id);
                 if(bookRental!=null)
-                return ResultService.Fail<BookDto>("O livro está alugado.");
+                return ResultService.BadRequest("O livro está alugado.");
 
             await _bookRepository.Delete(book);
             return ResultService.Ok("Livro deletado.");

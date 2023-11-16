@@ -4,6 +4,7 @@ using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace LibraryAPI.Controllers
 {
@@ -26,8 +27,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Post([FromBody] CreatePublisherDto createPublisherDto)
         {
             var result = await _publisherService.CreateAsync(createPublisherDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
 
@@ -35,9 +40,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetAsync()
         {
             var result = await _publisherService.GetAsync();
-            if(result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
 
         [HttpGet]
@@ -45,18 +50,30 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetByIdAsync(int id)
         {
             var result = await _publisherService.GetByIdAsync(id);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
-
+        [HttpGet]
+        [Route("paged")]
+        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
+        {
+            var result = await _publisherService.GetPagedAsync(request);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
+        }
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> UpdateAsync([FromBody] PublisherDto publisherDto)
         {
             var result = await _publisherService.UpdateAsync(publisherDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
 
@@ -65,17 +82,11 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var result = await _publisherService.DeleteAsync(id);
-            if(result.IsSucess)
-                return Ok(result);
-            return BadRequest(result);
-        }
-        [HttpGet]
-        [Route("paged")]
-        public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
-        {
-            var result = await _publisherService.GetPagedAsync(request);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
 
             return BadRequest(result);
         }

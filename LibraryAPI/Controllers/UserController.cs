@@ -9,6 +9,7 @@ using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace LibraryAPI.Controllers
 {
@@ -30,33 +31,41 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> Post([FromBody] CreateUserDto createUserDto)
         {
             var result = await _userService.CreateAsync(createUserDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
             var result = await _userService.GetAsync();
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult>GetByIdAsync(int id)
         {
             var result = await _userService.GetByIdAsync(id);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-            return BadRequest(result);
+            return NotFound(result);
         }
         [HttpPut]
         public async Task<ActionResult> Update([FromBody] UserDto UserDto)
         {
             var result = await _userService.UpdateAsync(UserDto);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
         [HttpDelete]
@@ -64,8 +73,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var result = await _userService.DeleteAsync(id);
-            if (result.IsSucess)
-                return Ok(result);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return StatusCode(201, result);
+
+            if (result.StatusCode == HttpStatusCode.NotFound)
+                return NotFound(result);
+
             return BadRequest(result);
         }
         [HttpGet]
@@ -73,10 +86,9 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
         {
             var result = await _userService.GetPagedAsync(request);
-            if (result.IsSucess)
+            if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
-
-            return BadRequest(result);
+            return NotFound(result);
         }
     }
 }
