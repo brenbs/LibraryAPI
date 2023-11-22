@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 
 namespace LibraryAPI.Data
@@ -13,20 +14,33 @@ namespace LibraryAPI.Data
         {
             var response = new TResponse();
             var count = await query.CountAsync();
-            response.TotalPages = (int)Math.Abs((double)count / request.PageSize);
+            response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
-            if (string.IsNullOrEmpty(request.OrderByPorperty))
+            response.Page = request.Page;
+            if (string.IsNullOrEmpty(request.OrderByPorperty) && !request.Desc)
                 response.Data = await query.ToListAsync();
             else
-                response.Data = query.OrderByDynamic(request.OrderByPorperty)
-                                 .Skip((request.Page - 1) * request.PageSize)
-                                 .Take(request.PageSize)
-                                 .ToList();
+                response.Data = query.OrderByDynamic(request.OrderByPorperty, request.Desc)
+                   .Skip((request.Page - 1) * request.PageSize)
+                    .Take(request.PageSize)
+                    .ToList();
+
             return response;
-        } 
-        private static  IEnumerable<T> OrderByDynamic<T>(this  IEnumerable<T> query, string propertyName)
+        }
+        private static IEnumerable<T> OrderByDynamic<T>(this IEnumerable<T> query, string propertyName, bool desc)
         {
-        return query.OrderBy(x => x.GetType().GetProperty(propertyName).GetValue(x, null));
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = propertyName.Split('.')
+                .Aggregate((Expression)parameter, Expression.Property);
+            var lambda = Expression.Lambda<Func<T, object>>(Expression.Convert(property, typeof(object)), parameter);
+            if (desc)
+            {
+                return query.OrderByDescending(lambda.Compile());
+            }
+            else
+            {
+                return query.OrderBy(lambda.Compile());
+            }
         }
     }       
 }

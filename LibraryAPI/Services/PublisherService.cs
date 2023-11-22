@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos;
+using LibraryAPI.Dtos.Books;
 using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Dtos.Validations;
 using LibraryAPI.FiltersDb;
@@ -87,12 +88,15 @@ namespace LibraryAPI.Services
             return ResultService.Ok("Editora foi deletada");
         }
         
-        public async Task<ResultService<PagedBaseResponseDto<PublisherDto>>> GetPagedAsync(FilterDb request)
+        public async Task<ResultService<List<PublisherDto>>> GetPagedAsync(FilterDb request)
         {
            var publisherPaged = await _publisherRepository.GetPagedAsync(request);
-           var result = new PagedBaseResponseDto<PublisherDto>(publisherPaged.TotalRegisters,
+           var result = new PagedBaseResponseDto<PublisherDto>(publisherPaged.TotalRegisters,publisherPaged.TotalPages,publisherPaged.Page,
                                         _mapper.Map<List<PublisherDto>>(publisherPaged.Data));
-            return ResultService.Ok(result);
+            if (result.Data.Count == 0)
+                return ResultService.NotFound<List<PublisherDto>>("Nenhum Registro Encontrado");
+
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
         }
     }
 }

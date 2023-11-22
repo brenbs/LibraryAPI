@@ -3,6 +3,7 @@ using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos;
 using LibraryAPI.Dtos.Books;
+using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.Dtos.Validations;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
@@ -89,12 +90,15 @@ namespace LibraryAPI.Services
             return ResultService.Ok("Livro deletado.");
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<BookDto>>> GetPagedAsync(FilterDb request)
+        public async Task<ResultService<List<BookDto>>> GetPagedAsync(FilterDb request)
         {
             var bookPaged = await _bookRepository.GetPagedAsync(request);
-            var result = new PagedBaseResponseDto<BookDto>(bookPaged.TotalRegisters,
+            var result = new PagedBaseResponseDto<BookDto>(bookPaged.TotalRegisters,bookPaged.TotalPages,bookPaged.Page,
                                           _mapper.Map<List<BookDto>>(bookPaged.Data));
-            return ResultService.Ok(result);
+            if (result.Data.Count == 0)
+                return ResultService.NotFound<List<BookDto>>("Nenhum Registro Encontrado");
+
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
         }
     }
 }

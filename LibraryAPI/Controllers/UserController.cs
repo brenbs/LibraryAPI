@@ -57,6 +57,7 @@ namespace LibraryAPI.Controllers
             return NotFound(result);
         }
         [HttpPut]
+        [Route("{id}")]
         public async Task<ActionResult> Update([FromBody] UserDto UserDto)
         {
             var result = await _userService.UpdateAsync(UserDto);

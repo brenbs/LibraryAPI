@@ -13,6 +13,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService<BookDto>> GetByIdAsync(int id);
         Task<ResultService> UpdateAsync(UpdateBookDto updatebookDto);
         Task<ResultService> DeleteAsync(int id);
-        Task<ResultService<PagedBaseResponseDto<BookDto>>> GetPagedAsync(FilterDb request);
+        Task<ResultService<List<BookDto>>> GetPagedAsync(FilterDb request);
     }
 }

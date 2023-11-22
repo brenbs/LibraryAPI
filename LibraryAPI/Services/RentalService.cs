@@ -104,12 +104,15 @@ namespace LibraryAPI.Services
 
             return ResultService.Ok("Aluguel atualizado com sucesso!");
         }
-        public async Task<ResultService<PagedBaseResponseDto<RentalDto>>> GetPagedAsync(FilterDb request)
+        public async Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request)
         {
             var rentalPaged = await _rentalRepository.GetPagedAsync(request);
-            var result = new PagedBaseResponseDto<RentalDto>(rentalPaged.TotalRegisters,
+            var result = new PagedBaseResponseDto<RentalDto>(rentalPaged.TotalRegisters,rentalPaged.TotalPages,rentalPaged.Page,
                                          _mapper.Map<List<RentalDto>>(rentalPaged.Data));
-            return ResultService.Ok(result);
+            if (result.Data.Count == 0)
+                return ResultService.NotFound<List<RentalDto>>("Nenhum Registro Encontrado");
+
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
         }
     }
 }

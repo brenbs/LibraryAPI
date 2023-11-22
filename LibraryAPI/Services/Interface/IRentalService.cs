@@ -11,6 +11,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService<ICollection<RentalDto>>> GetAsync();
         Task<ResultService<RentalDto>> GetByIdAsync(int id);
         Task<ResultService> UpdateAsync(UpdateRentalDto updateRentalDto);
-        Task<ResultService<PagedBaseResponseDto<RentalDto>>> GetPagedAsync(FilterDb request);
+        Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request);
     }
 }

@@ -86,12 +86,15 @@ namespace LibraryAPI.Services
             return ResultService.Ok("O Usuário foi deletado.");
         }
 
-        public async Task<ResultService<PagedBaseResponseDto<UserDto>>> GetPagedAsync(FilterDb request)
+        public async Task<ResultService<List<UserDto>>> GetPagedAsync(FilterDb request)
         {
             var userPaged = await _userRepository.GetPagedAsync(request);
-            var result = new PagedBaseResponseDto<UserDto>(userPaged.TotalRegisters,
+            var result = new PagedBaseResponseDto<UserDto>(userPaged.TotalRegisters,userPaged.TotalPages,userPaged.Page,
                                          _mapper.Map<List<UserDto>>(userPaged.Data));
-            return ResultService.Ok(result);
+            if (result.Data.Count == 0)
+                return ResultService.NotFound<List<UserDto>>("Nenhum Registro Encontrado");
+
+            return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
         }
     }
 }
