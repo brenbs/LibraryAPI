@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231127170422_Initial")]
+    [Migration("20231127190514_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,7 +164,7 @@ namespace LibraryAPI.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DevolutionDate")
+                    b.Property<DateTime?>("DevolutionDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ForecastDate")

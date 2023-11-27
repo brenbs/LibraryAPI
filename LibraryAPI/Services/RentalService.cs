@@ -92,7 +92,7 @@ namespace LibraryAPI.Services
             if (updateRentalDto.DevolutionDate.Date != DateTime.Now.Date)
                 return ResultService.BadRequest("O livro só pode ser devolvido no dia atual!");
 
-            if (rental.ForecastDate.Date >=rental.DevolutionDate.Date)
+            if (rental.ForecastDate.Date >=rental.DevolutionDate.Value.Date)
             {
               rental.Status = "No prazo";
             }

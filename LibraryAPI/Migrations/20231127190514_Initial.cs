@@ -73,7 +73,7 @@ namespace LibraryAPI.Migrations
                     BookId = table.Column<int>(type: "INTEGER", nullable: false),
                     RentalDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ForecastDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    DevolutionDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DevolutionDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

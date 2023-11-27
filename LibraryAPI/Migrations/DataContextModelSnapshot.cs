@@ -162,7 +162,7 @@ namespace LibraryAPI.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("DevolutionDate")
+                    b.Property<DateTime?>("DevolutionDate")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("ForecastDate")

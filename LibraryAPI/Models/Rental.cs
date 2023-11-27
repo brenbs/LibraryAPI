@@ -21,7 +21,7 @@ namespace LibraryAPI.Models
         public Book Book { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime ForecastDate { get; set; }
-        public DateTime DevolutionDate { get; set; } 
+        public DateTime? DevolutionDate { get; set; } 
         public string? Status { get; set; } 
 
     }

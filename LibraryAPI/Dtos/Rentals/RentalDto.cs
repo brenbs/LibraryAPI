@@ -12,7 +12,7 @@ namespace LibraryAPI.Dtos.Rentals
         public BookRentalDto Book { get; set; }
         public DateTime RentalDate { get; set; }
         public DateTime ForecastDate { get; set; }
-        public DateTime DevolutionDate { get; set; }
+        public DateTime? DevolutionDate { get; set; }
         public string? Status { get; set; }
 
     }
