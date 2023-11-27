@@ -4,14 +4,14 @@
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
-        public string OrderByPorperty { get; set; }
+        public string OrderByProperty { get; set; }
         public bool Desc { get; set; }
 
         public PagedBaseRequest()
         {
             Page = 1;
             PageSize = 5;
-            OrderByPorperty = "Id";
+            OrderByProperty = "Id";
             Desc = false;
         }
         public class FilterDb : PagedBaseRequest

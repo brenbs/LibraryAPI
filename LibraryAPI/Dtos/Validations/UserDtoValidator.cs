@@ -15,7 +15,7 @@ namespace LibraryAPI.Dtos.Validations
                 .WithMessage("Email necessário!")
                 .EmailAddress()
                 .WithMessage("Email inválido!");
-            RuleFor(x => x.Adress)
+            RuleFor(x => x.Address)
                 .NotEmpty()
                 .WithMessage("Endereço ncessário!");
             RuleFor(x => x.City)
@@ -33,7 +33,7 @@ namespace LibraryAPI.Dtos.Validations
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .WithMessage("Email ncessário!");
-            RuleFor(x => x.Adress)
+            RuleFor(x => x.Address)
                 .NotEmpty()
                 .WithMessage("Endereço ncessário!");
             RuleFor(x => x.City)

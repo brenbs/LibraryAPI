@@ -23,11 +23,11 @@ namespace LibraryAPI.Data
 
             builder.Entity<Book>()
                 .HasData(new List<Book>{
-                    new Book(1,"Orgulho e Preconceito","Jane Austen",1813,25,1),
-                    new Book(2,"Chainsaw Man Vol.1","Tatsuki Fujimoto",2010,20,5),
-                    new Book(3,"Razão e Sensibilidade","Jane Austen", 1811,30,1 ),
-                    new Book(4, "O Pequeno Príncipe","Antoine de Saint-Exupéry",1943,35,4),
-                    new Book(5, "Coraline","Neil Gaiman",2002,18,4)
+                    new Book(1,"Orgulho e Preconceito","Jane Austen",1813,25,1,0),
+                    new Book(2,"Chainsaw Man Vol.1","Tatsuki Fujimoto",2010,20,5,0),
+                    new Book(3,"Razão e Sensibilidade","Jane Austen", 1811,30,1 ,0),
+                    new Book(4, "O Pequeno Príncipe","Antoine de Saint-Exupéry",1943,35,4, 0),
+                    new Book(5, "Coraline","Neil Gaiman",2002,18,4, 0)
                 });
 
             builder.Entity<User>()

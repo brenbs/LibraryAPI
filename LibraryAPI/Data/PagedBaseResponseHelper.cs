@@ -17,10 +17,10 @@ namespace LibraryAPI.Data
             response.TotalPages = (int)Math.Ceiling((double)count / request.PageSize);
             response.TotalRegisters = count;
             response.Page = request.Page;
-            if (string.IsNullOrEmpty(request.OrderByPorperty) && !request.Desc)
+            if (string.IsNullOrEmpty(request.OrderByProperty) && !request.Desc)
                 response.Data = await query.ToListAsync();
             else
-                response.Data = query.OrderByDynamic(request.OrderByPorperty, request.Desc)
+                response.Data = query.OrderByDynamic(request.OrderByProperty, request.Desc)
                    .Skip((request.Page - 1) * request.PageSize)
                     .Take(request.PageSize)
                     .ToList();

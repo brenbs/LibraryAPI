@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LibraryAPI.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,7 @@ namespace LibraryAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Adress = table.Column<string>(type: "TEXT", nullable: false),
+                    Address = table.Column<string>(type: "TEXT", nullable: false),
                     City = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -46,10 +46,11 @@ namespace LibraryAPI.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Autor = table.Column<string>(type: "TEXT", nullable: false),
-                    Realese = table.Column<int>(type: "INTEGER", nullable: false),
+                    Author = table.Column<string>(type: "TEXT", nullable: false),
+                    Release = table.Column<int>(type: "INTEGER", nullable: false),
                     Stock = table.Column<int>(type: "INTEGER", nullable: false),
-                    PublisherId = table.Column<int>(type: "INTEGER", nullable: false)
+                    PublisherId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TotalRental = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,53 +120,53 @@ namespace LibraryAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                columns: new[] { "Id", "Address", "City", "Email", "Name" },
                 values: new object[] { 1, "Álvaro Weyne rua Manoel Pereira n°489", "Fortaleza,CE", "brenbs@gmail.com", "Brenda" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                columns: new[] { "Id", "Address", "City", "Email", "Name" },
                 values: new object[] { 2, "Moranguinho, rua Maria n°321", "Horizonte,CE", "manhu@gmail.com", "Emauela" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                columns: new[] { "Id", "Address", "City", "Email", "Name" },
                 values: new object[] { 3, "Damas, rua Professor Costa Mendes n°933", "Fortaleza,CE", "lolo@gmail.com", "Heloísa" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                columns: new[] { "Id", "Address", "City", "Email", "Name" },
                 values: new object[] { 4, "Aldeota, Av.Dom Luís n°5001", "Fortaleza,CE", "tonys@gmail.com", "Antonio" });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Adress", "City", "Email", "Name" },
+                columns: new[] { "Id", "Address", "City", "Email", "Name" },
                 values: new object[] { 5, "Álvaro Weyne,Coelho Neto n°400", "Fortaleza,CE", "manel@gmail.com", "Emanuel" });
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "Autor", "Name", "PublisherId", "Realese", "Stock" },
-                values: new object[] { 1, "Jane Austen", "Orgulho e Preconceito", 1, 1813, 25 });
+                columns: new[] { "Id", "Author", "Name", "PublisherId", "Release", "Stock", "TotalRental" },
+                values: new object[] { 1, "Jane Austen", "Orgulho e Preconceito", 1, 1813, 25, 0 });
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "Autor", "Name", "PublisherId", "Realese", "Stock" },
-                values: new object[] { 2, "Tatsuki Fujimoto", "Chainsaw Man Vol.1", 5, 2010, 20 });
+                columns: new[] { "Id", "Author", "Name", "PublisherId", "Release", "Stock", "TotalRental" },
+                values: new object[] { 2, "Tatsuki Fujimoto", "Chainsaw Man Vol.1", 5, 2010, 20, 0 });
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "Autor", "Name", "PublisherId", "Realese", "Stock" },
-                values: new object[] { 3, "Jane Austen", "Razão e Sensibilidade", 1, 1811, 30 });
+                columns: new[] { "Id", "Author", "Name", "PublisherId", "Release", "Stock", "TotalRental" },
+                values: new object[] { 3, "Jane Austen", "Razão e Sensibilidade", 1, 1811, 30, 0 });
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "Autor", "Name", "PublisherId", "Realese", "Stock" },
-                values: new object[] { 4, "Antoine de Saint-Exupéry", "O Pequeno Príncipe", 4, 1943, 35 });
+                columns: new[] { "Id", "Author", "Name", "PublisherId", "Release", "Stock", "TotalRental" },
+                values: new object[] { 4, "Antoine de Saint-Exupéry", "O Pequeno Príncipe", 4, 1943, 35, 0 });
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "Autor", "Name", "PublisherId", "Realese", "Stock" },
-                values: new object[] { 5, "Neil Gaiman", "Coraline", 4, 2002, 18 });
+                columns: new[] { "Id", "Author", "Name", "PublisherId", "Release", "Stock", "TotalRental" },
+                values: new object[] { 5, "Neil Gaiman", "Coraline", 4, 2002, 18, 0 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Books_PublisherId",

@@ -60,7 +60,7 @@ namespace LibraryAPI.Data
                 user = user.Where(x => x.Name.ToLower()
                 .Contains(request.SearchValue) ||
                 x.Email.ToLower().Contains(ignore) ||
-                x.Adress.ToLower().Contains(ignore) ||
+                x.Address.ToLower().Contains(ignore) ||
                 x.City.ToLower().Contains(ignore) ||
                 x.Id.ToString().Contains(ignore));
             }

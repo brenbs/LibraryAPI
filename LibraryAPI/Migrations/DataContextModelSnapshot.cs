@@ -23,7 +23,7 @@ namespace LibraryAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Autor")
+                    b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -34,10 +34,13 @@ namespace LibraryAPI.Migrations
                     b.Property<int>("PublisherId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Realese")
+                    b.Property<int>("Release")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Stock")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TotalRental")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -50,47 +53,52 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Autor = "Jane Austen",
+                            Author = "Jane Austen",
                             Name = "Orgulho e Preconceito",
                             PublisherId = 1,
-                            Realese = 1813,
-                            Stock = 25
+                            Release = 1813,
+                            Stock = 25,
+                            TotalRental = 0
                         },
                         new
                         {
                             Id = 2,
-                            Autor = "Tatsuki Fujimoto",
+                            Author = "Tatsuki Fujimoto",
                             Name = "Chainsaw Man Vol.1",
                             PublisherId = 5,
-                            Realese = 2010,
-                            Stock = 20
+                            Release = 2010,
+                            Stock = 20,
+                            TotalRental = 0
                         },
                         new
                         {
                             Id = 3,
-                            Autor = "Jane Austen",
+                            Author = "Jane Austen",
                             Name = "Razão e Sensibilidade",
                             PublisherId = 1,
-                            Realese = 1811,
-                            Stock = 30
+                            Release = 1811,
+                            Stock = 30,
+                            TotalRental = 0
                         },
                         new
                         {
                             Id = 4,
-                            Autor = "Antoine de Saint-Exupéry",
+                            Author = "Antoine de Saint-Exupéry",
                             Name = "O Pequeno Príncipe",
                             PublisherId = 4,
-                            Realese = 1943,
-                            Stock = 35
+                            Release = 1943,
+                            Stock = 35,
+                            TotalRental = 0
                         },
                         new
                         {
                             Id = 5,
-                            Autor = "Neil Gaiman",
+                            Author = "Neil Gaiman",
                             Name = "Coraline",
                             PublisherId = 4,
-                            Realese = 2002,
-                            Stock = 18
+                            Release = 2002,
+                            Stock = 18,
+                            TotalRental = 0
                         });
                 });
 
@@ -184,7 +192,7 @@ namespace LibraryAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Adress")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -208,7 +216,7 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Adress = "Álvaro Weyne rua Manoel Pereira n°489",
+                            Address = "Álvaro Weyne rua Manoel Pereira n°489",
                             City = "Fortaleza,CE",
                             Email = "brenbs@gmail.com",
                             Name = "Brenda"
@@ -216,7 +224,7 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 2,
-                            Adress = "Moranguinho, rua Maria n°321",
+                            Address = "Moranguinho, rua Maria n°321",
                             City = "Horizonte,CE",
                             Email = "manhu@gmail.com",
                             Name = "Emauela"
@@ -224,7 +232,7 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 3,
-                            Adress = "Damas, rua Professor Costa Mendes n°933",
+                            Address = "Damas, rua Professor Costa Mendes n°933",
                             City = "Fortaleza,CE",
                             Email = "lolo@gmail.com",
                             Name = "Heloísa"
@@ -232,7 +240,7 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 4,
-                            Adress = "Aldeota, Av.Dom Luís n°5001",
+                            Address = "Aldeota, Av.Dom Luís n°5001",
                             City = "Fortaleza,CE",
                             Email = "tonys@gmail.com",
                             Name = "Antonio"
@@ -240,7 +248,7 @@ namespace LibraryAPI.Migrations
                         new
                         {
                             Id = 5,
-                            Adress = "Álvaro Weyne,Coelho Neto n°400",
+                            Address = "Álvaro Weyne,Coelho Neto n°400",
                             City = "Fortaleza,CE",
                             Email = "manel@gmail.com",
                             Name = "Emanuel"

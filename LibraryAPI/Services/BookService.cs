@@ -34,7 +34,7 @@ namespace LibraryAPI.Services
             if (sameName != null)
                 return ResultService.BadRequest("Livro já cadastrado!");
 
-            if(createBookDto.Realese>DateTime.Now.Year)
+            if(createBookDto.Release>DateTime.Now.Year)
                 return ResultService.BadRequest("Ano inválido");
 
             var book = _mapper.Map<Book>(createBookDto);

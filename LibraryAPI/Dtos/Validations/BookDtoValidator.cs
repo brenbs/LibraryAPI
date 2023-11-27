@@ -10,18 +10,18 @@ namespace LibraryAPI.Dtos.Validations
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithMessage("Nome ncessário!");
-            RuleFor(x => x.Autor)
+            RuleFor(x => x.Author)
                     .NotEmpty()
                     .WithMessage("Autor necessário!");
             RuleFor(x => x.PublisherId)
                     .NotEmpty()
-                    .WithMessage("Editora ncessária!");
-            RuleFor(x => x.Realese)
+                    .WithMessage("Editora necessária!");
+            RuleFor(x => x.Release)
                     .NotEmpty()
-                    .WithMessage("Ano de lançamento ncessário!");
+                    .WithMessage("Ano de lançamento necessário!");
             RuleFor(x => x.Stock)
                     .NotEmpty()
-                    .WithMessage("Estoque ncessário!");
+                    .WithMessage("Estoque necessário!");
         }
     }
 
@@ -32,13 +32,13 @@ namespace LibraryAPI.Dtos.Validations
             RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Nome ncessário!");
-        RuleFor(x => x.Autor)
+        RuleFor(x => x.Author)
             .NotEmpty()
             .WithMessage("Autor necessário!");
         RuleFor(x => x.PublisherId)
             .NotEmpty()
             .WithMessage("Editora ncessária!");
-        RuleFor(x => x.Realese)
+        RuleFor(x => x.Release)
             .NotEmpty()
             .WithMessage("Ano de lançamento ncessária!");
             RuleFor(x => x.Stock)

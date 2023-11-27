@@ -54,6 +54,8 @@ namespace LibraryAPI.Services
             var rental = _mapper.Map<Rental>(createRentalDto);
 
             rental.Status = "Pendente";
+            book.TotalRental++;
+            book.Stock--;
 
             var sameRental = await _rentalRepository.GetBookUser(createRentalDto.BookId, createRentalDto.UserId);
             if (sameRental != null && rental.Status == "Pendente")
@@ -87,7 +89,6 @@ namespace LibraryAPI.Services
             if (!validation.IsValid)
                 return ResultService.BadRequest(validation);
 
-
             if (updateRentalDto.DevolutionDate.Date != DateTime.Now.Date)
                 return ResultService.BadRequest("O livro só pode ser devolvido no dia atual!");
 
@@ -99,9 +100,17 @@ namespace LibraryAPI.Services
             {
                 rental.Status = "Em atraso";
             }
+
+            var book = await _bookRepository.GetBooksById(rental.BookId);
+            if (book != null)
+            {
+                book.Stock++;
+                book.TotalRental--;
+            }
+               
             rental = _mapper.Map(updateRentalDto, rental);
             await _rentalRepository.Update(rental);
-
+            
             return ResultService.Ok("Aluguel atualizado com sucesso!");
         }
         public async Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request)

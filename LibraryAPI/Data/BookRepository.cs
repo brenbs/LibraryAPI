@@ -62,15 +62,17 @@ namespace LibraryAPI.Data
 
         public async Task<PagedBaseResponse<Book>> GetPagedAsync(FilterDb request)
         {
-            var book = _context.Books.AsQueryable();
+            var book = _context.Books.Include(b => b.Publisher).AsQueryable();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
                 var ignore = request.SearchValue.ToLower();
                               book = book.Where(x => x.Name.ToLower()
                               .Contains(request.SearchValue)||
-                              x.Autor.ToLower().Contains(ignore) ||
+                              x.Author.ToLower().Contains(ignore) ||
                               x.Stock.ToString().Contains(ignore)||
+                              x.Release.ToString().Contains(ignore) ||
                               x.PublisherId.ToString().Contains(ignore)||
+                              x.TotalRental.ToString().Contains(ignore) ||
                               x.Id.ToString().Contains(ignore));
             }
             return await PagedBaseResponseHelper
