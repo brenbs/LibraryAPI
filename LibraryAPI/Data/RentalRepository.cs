@@ -51,7 +51,7 @@ namespace LibraryAPI.Data
 
         public async Task<PagedBaseResponse<Rental>> GetPagedAsync(FilterDb request)
         {
-            var rental = _context.Rentals.AsQueryable();
+            var rental = _context.Rentals.Include(r => r.User).Include(r => r.Book).AsQueryable();
             if (!string.IsNullOrEmpty(request.SearchValue))
             {
                 var ignore = request.SearchValue.ToLower();
