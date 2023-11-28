@@ -96,5 +96,11 @@ namespace LibraryAPI.Services
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
         }
+
+        public async Task<ResultService<List<UserDash>>> Dash()
+        {
+            var users = await _userRepository.GetAllusers();
+            return ResultService.Ok(_mapper.Map<List<UserDash>>(users));
+        }
     }
 }

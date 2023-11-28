@@ -91,5 +91,14 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return NotFound(result);
         }
+        [HttpGet]
+        [Route("Dash")]
+        public async Task<ActionResult> GetRented()
+        {
+            var result = await _userService.Dash();
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
+        }
     }
 }

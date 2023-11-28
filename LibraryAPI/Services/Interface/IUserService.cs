@@ -12,5 +12,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService> UpdateAsync(UserDto userDto);
         Task<ResultService> DeleteAsync(int id);
         Task<ResultService<List<UserDto>>> GetPagedAsync(FilterDb request);
+        Task<ResultService<List<UserDash>>> Dash();
     }
 }

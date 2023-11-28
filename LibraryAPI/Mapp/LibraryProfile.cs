@@ -15,6 +15,7 @@ namespace LibraryAPI.Mapp
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserDto>().ReverseMap();
             CreateMap<User, UserRentalDto>().ReverseMap();
+            CreateMap<User, UserDash>().ReverseMap();
 
             //Books
             CreateMap<Book, BookDto>().ReverseMap();
@@ -22,16 +23,20 @@ namespace LibraryAPI.Mapp
             CreateMap<Publisher, PublisherBookDto>().ReverseMap();
             CreateMap<Book,BookRentalDto>().ReverseMap();
             CreateMap<Book, UpdateBookDto>().ReverseMap();
+            CreateMap<Book, BookDash>().ReverseMap();
 
 
             //Publsihers
             CreateMap<Publisher, PublisherDto>().ReverseMap();
             CreateMap<Publisher, CreatePublisherDto>().ReverseMap();
+            CreateMap<Publisher, PublisherDash>().ReverseMap();
 
             //Rentals
             CreateMap<Rental, RentalDto>().ReverseMap();
             CreateMap<Rental, CreateRentalDto>().ReverseMap();
             CreateMap<Rental, UpdateRentalDto>().ReverseMap();
+            CreateMap<Rental, RentalDash>().ReverseMap();
+
         }
     }
 }

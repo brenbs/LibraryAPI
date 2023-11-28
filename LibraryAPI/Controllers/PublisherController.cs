@@ -2,6 +2,7 @@
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos.Publishers;
 using LibraryAPI.FiltersDb;
+using LibraryAPI.Services;
 using LibraryAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -89,6 +90,15 @@ namespace LibraryAPI.Controllers
                 return NotFound(result);
 
             return BadRequest(result);
+        }
+        [HttpGet]
+        [Route("Dash")]
+        public async Task<ActionResult> GetRented()
+        {
+            var result = await _publisherService.Dash();
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
         }
     }
 }

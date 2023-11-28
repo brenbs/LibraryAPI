@@ -89,17 +89,7 @@ namespace LibraryAPI.Services
             if (!validation.IsValid)
                 return ResultService.BadRequest(validation);
 
-            if (updateRentalDto.DevolutionDate.Date != DateTime.Now.Date)
-                return ResultService.BadRequest("O livro só pode ser devolvido no dia atual!");
-
-            if (rental.ForecastDate.Date >=rental.DevolutionDate.Value.Date)
-            {
-              rental.Status = "No prazo";
-            }
-            else
-            {
-                rental.Status = "Em atraso";
-            }
+            rental = _mapper.Map(updateRentalDto, rental);
 
             var book = await _bookRepository.GetBooksById(rental.BookId);
             if (book != null)
@@ -108,9 +98,20 @@ namespace LibraryAPI.Services
                 book.TotalRental--;
             }
                
-            rental = _mapper.Map(updateRentalDto, rental);
+            if (rental.DevolutionDate.Value.Date != DateTime.Now.Date)
+                return ResultService.BadRequest("O livro só pode ser devolvido no dia atual!");
+
+            if (rental.ForecastDate.Date >= rental.DevolutionDate.Value.Date)
+            {
+                rental.Status = "No prazo";
+            }
+            else
+            {
+                rental.Status = "Em atraso";
+            }
+
             await _rentalRepository.Update(rental);
-            
+
             return ResultService.Ok("Aluguel atualizado com sucesso!");
         }
         public async Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request)
@@ -122,6 +123,12 @@ namespace LibraryAPI.Services
                 return ResultService.NotFound<List<RentalDto>>("Nenhum Registro Encontrado");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
+        }
+
+        public async Task<ResultService<List<RentalDash>>> Dash()
+        {
+            var rentals = await _rentalRepository.GetAllRentals();
+            return ResultService.Ok(_mapper.Map<List<RentalDash>>(rentals));
         }
     }
 }

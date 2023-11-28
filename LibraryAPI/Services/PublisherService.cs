@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using LibraryAPI.Data;
 using LibraryAPI.Data.Interfaces;
 using LibraryAPI.Dtos;
 using LibraryAPI.Dtos.Books;
 using LibraryAPI.Dtos.Publishers;
+using LibraryAPI.Dtos.Users;
 using LibraryAPI.Dtos.Validations;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
@@ -97,6 +99,12 @@ namespace LibraryAPI.Services
                 return ResultService.NotFound<List<PublisherDto>>("Nenhum Registro Encontrado");
 
             return ResultService.OkPaged(result.Data, result.TotalRegisters, result.TotalPages, result.Page);
+        }
+
+        public async Task<ResultService<List<PublisherDash>>> Dash()
+        {
+            var publishers = await _publisherRepository.GetAllPublishers();
+            return ResultService.Ok(_mapper.Map<List<PublisherDash>>(publishers));
         }
     }
 }

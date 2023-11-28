@@ -2,6 +2,7 @@
 using LibraryAPI.Dtos;
 using LibraryAPI.Dtos.Rentals;
 using LibraryAPI.FiltersDb;
+using LibraryAPI.Dtos.Users;
 
 namespace LibraryAPI.Services.Interface
 {
@@ -12,5 +13,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService<RentalDto>> GetByIdAsync(int id);
         Task<ResultService> UpdateAsync(UpdateRentalDto updateRentalDto);
         Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request);
+        Task<ResultService<List<RentalDash>>> Dash();
     }
 }

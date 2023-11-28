@@ -1,6 +1,7 @@
 ﻿using LibraryAPI.Data;
 using LibraryAPI.Dtos;
 using LibraryAPI.Dtos.Books;
+using LibraryAPI.Dtos.Users;
 using LibraryAPI.FiltersDb;
 using LibraryAPI.Models;
 
@@ -14,5 +15,6 @@ namespace LibraryAPI.Services.Interface
         Task<ResultService> UpdateAsync(UpdateBookDto updatebookDto);
         Task<ResultService> DeleteAsync(int id);
         Task<ResultService<List<BookDto>>> GetPagedAsync(FilterDb request);
+        Task<ResultService<List<BookDash>>> Dash();
     }
 }

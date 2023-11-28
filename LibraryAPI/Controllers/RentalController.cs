@@ -54,7 +54,8 @@ namespace LibraryAPI.Controllers
             return NotFound(result);
         }
         [HttpPut]
-        public async Task<ActionResult> UpdateAsnc([FromBody] UpdateRentalDto updateRentalDto)
+        [Route("{id}")]
+        public async Task<ActionResult> UpdateAsync([FromBody] UpdateRentalDto updateRentalDto)
         {
             var result = await _rentalService.UpdateAsync(updateRentalDto);
             if (result.StatusCode == HttpStatusCode.OK)
@@ -70,6 +71,15 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult> GetPagedAsync([FromQuery] FilterDb request)
         {
             var result = await _rentalService.GetPagedAsync(request);
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
+        }
+        [HttpGet]
+        [Route("Dash")]
+        public async Task<ActionResult> GetRented()
+        {
+            var result = await _rentalService.Dash();
             if (result.StatusCode == HttpStatusCode.OK)
                 return Ok(result);
             return NotFound(result);
