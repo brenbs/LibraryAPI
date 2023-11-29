@@ -107,5 +107,11 @@ namespace LibraryAPI.Services
             var books = await _bookRepository.GetAllBooks();
             return ResultService.Ok(_mapper.Map<List<BookDash>>(books));
         }
+
+        public async Task<ResultService<ICollection<BookRentalDto>>> SelectBook()
+        {
+            var book = await _bookRepository.GetAllBooks();
+            return ResultService.Ok(_mapper.Map<ICollection<BookRentalDto>>(book));
+        }
     }
 }

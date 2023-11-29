@@ -25,6 +25,10 @@ namespace LibraryAPI.Services
             _bookRepository = bookRepository;
         }
 
+        public PublisherService()
+        {
+        }
+
         public async Task<ResultService> CreateAsync(CreatePublisherDto createPublisherDto)
         {
             var validation = new PulisherDtoValidator().Validate(createPublisherDto);
@@ -105,6 +109,12 @@ namespace LibraryAPI.Services
         {
             var publishers = await _publisherRepository.GetAllPublishers();
             return ResultService.Ok(_mapper.Map<List<PublisherDash>>(publishers));
+        }
+
+        public async Task<ResultService<ICollection<PublisherBookDto>>> SelectPublisher()
+        {
+            var publisher = await _publisherRepository.GetAllPublishers();
+            return ResultService.Ok(_mapper.Map<ICollection<PublisherBookDto>>(publisher));
         }
     }
 }

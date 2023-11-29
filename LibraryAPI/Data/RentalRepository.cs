@@ -57,8 +57,13 @@ namespace LibraryAPI.Data
                 var ignore = request.SearchValue.ToLower();
                 rental = rental.Where(x => x.UserId.ToString()
                 .Contains(request.SearchValue) ||
-                x.BookId.ToString().Contains(ignore)||
+                x.BookId.ToString().Contains(ignore) ||
+                x.Book.Name.Contains(ignore) ||
+                x.User.Name.Contains(ignore) ||
                 x.Status.ToLower().Contains(ignore)||
+                x.RentalDate.ToString().Contains(ignore) ||
+                x.ForecastDate.ToString().Contains(ignore) ||
+                x.DevolutionDate.ToString().Contains(ignore) ||
                 x.Id.ToString().Contains(ignore));
             }
             return await PagedBaseResponseHelper

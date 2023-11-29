@@ -41,7 +41,7 @@ namespace LibraryAPI.Services
 
         public async Task<ResultService<ICollection<UserDto>>> GetAsync()
         {
-            var user = await _userRepository.GetAllusers();
+            var user = await _userRepository.GetAllUsers();
             return ResultService.Ok(_mapper.Map<ICollection<UserDto>>(user));
         }
         public async Task<ResultService<UserDto>> GetByIdAsync(int id)
@@ -99,8 +99,14 @@ namespace LibraryAPI.Services
 
         public async Task<ResultService<List<UserDash>>> Dash()
         {
-            var users = await _userRepository.GetAllusers();
+            var users = await _userRepository.GetAllUsers();
             return ResultService.Ok(_mapper.Map<List<UserDash>>(users));
+        }
+
+        public async Task<ResultService<ICollection<UserRentalDto>>> SelectUser()
+        {
+            var user = await _userRepository.GetAllUsers();
+            return ResultService.Ok(_mapper.Map<ICollection<UserRentalDto>>(user));
         }
     }
 }

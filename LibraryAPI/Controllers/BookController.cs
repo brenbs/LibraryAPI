@@ -99,5 +99,15 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return NotFound(result);
         }
+
+        [HttpGet]
+        [Route("select")]
+        public async Task<ActionResult> SelectBook()
+        {
+            var result = await _bookService.SelectBook();
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
+        }
     }
 }

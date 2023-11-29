@@ -100,5 +100,14 @@ namespace LibraryAPI.Controllers
                 return Ok(result);
             return NotFound(result);
         }
+        [HttpGet]
+        [Route("select")]
+        public async Task<ActionResult> SelectUser()
+        {
+            var result = await _userService.SelectUser();
+            if (result.StatusCode == HttpStatusCode.OK)
+                return Ok(result);
+            return NotFound(result);
+        }
     }
 }
