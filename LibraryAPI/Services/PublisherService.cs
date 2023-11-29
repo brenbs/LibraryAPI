@@ -33,7 +33,7 @@ namespace LibraryAPI.Services
 
             var sameName = await _publisherRepository.GetPublisherByName(createPublisherDto.Name);
             if (sameName != null)
-                return ResultService.BadRequest("Editora já existente.");
+                return ResultService.BadRequest("Editora já cadastrada.");
 
             var publisher = _mapper.Map<Publisher>(createPublisherDto);
             await _publisherRepository.Add(publisher);
@@ -52,7 +52,7 @@ namespace LibraryAPI.Services
             var publisher = await _publisherRepository.GetPublisherById(id);
             if (publisher == null)
             {
-                return ResultService.NotFound<PublisherDto>("Editora não encontrada.");
+                return ResultService.NotFound<PublisherDto>("Editora não encontrada!");
             }
             return ResultService.Ok(_mapper.Map<PublisherDto>(publisher));
         }
@@ -61,7 +61,7 @@ namespace LibraryAPI.Services
         {
             var publisher = await _publisherRepository.GetPublisherById(publisherDto.Id);
             if (publisher == null)
-                return ResultService.NotFound("Editora não encontrada.");
+                return ResultService.NotFound("Editora não encontrada!");
 
             var validation = new UpdatePulisherDtoValidator().Validate(publisherDto);
             if (!validation.IsValid)
@@ -69,7 +69,7 @@ namespace LibraryAPI.Services
 
             var sameName = await _publisherRepository.GetPublisherByName(publisherDto.Name);
             if (sameName != null && sameName.Id != publisher.Id)
-                return ResultService.BadRequest("Editora já existente.");
+                return ResultService.BadRequest("Editora já cadastrada.");
 
             publisher = _mapper.Map(publisherDto, publisher);
             await _publisherRepository.Update(publisher);
@@ -80,14 +80,14 @@ namespace LibraryAPI.Services
         {
             var publisher = await _publisherRepository.GetPublisherById(id);
             if (publisher == null)
-                return ResultService.NotFound("Editora não encontrado.");
+                return ResultService.NotFound("Editora não encontrado!");
 
             var bookAssociation = await _bookRepository.GetPublisherAssociate(id);
             if (bookAssociation.Count > 0)
                 return ResultService.BadRequest("Editora está associada a livros.");
 
             await _publisherRepository.Delete(publisher);
-            return ResultService.Ok("Editora foi deletada");
+            return ResultService.Ok("Editora foi deletada.");
         }
         
         public async Task<ResultService<List<PublisherDto>>> GetPagedAsync(FilterDb request)

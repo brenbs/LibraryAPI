@@ -31,7 +31,7 @@ namespace LibraryAPI.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<ICollection<User>> GetAllusers()
+        public async Task<ICollection<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
         }

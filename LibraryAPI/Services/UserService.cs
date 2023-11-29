@@ -26,9 +26,9 @@ namespace LibraryAPI.Services
         }
         public async Task<ResultService> CreateAsync(CreateUserDto createUserDto)
         {
-            var result = new UserDtoValidator().Validate(createUserDto);
-            if (!result.IsValid)
-                return ResultService.BadRequest(result);
+            var validation = new UserDtoValidator().Validate(createUserDto);
+            if (!validation.IsValid)
+                return ResultService.BadRequest(validation);
 
             var sameEmail = await _userRepository.GetuserByEmail(createUserDto.Email);
             if (sameEmail != null)
@@ -49,7 +49,7 @@ namespace LibraryAPI.Services
             var user = await _userRepository.GetuserById(id);
             if(user == null)
             {
-                return ResultService.NotFound<UserDto>("Usuário não encontrado");
+                return ResultService.NotFound<UserDto>("Usuário não encontrado!");
             }
             return ResultService.Ok(_mapper.Map<UserDto>(user));
         }
@@ -70,20 +70,20 @@ namespace LibraryAPI.Services
 
             user = _mapper.Map(userDto, user);
             await _userRepository.Update(user);
-            return ResultService.Ok("Usuário atualizado");
+            return ResultService.Ok("Usuário atualizado.");
         }
         public async Task<ResultService> DeleteAsync(int id)
         {
             var user = await _userRepository.GetuserById(id);
             if (user == null) 
-                return ResultService.NotFound<UserDto>("Usuário não encontrado.");
+                return ResultService.NotFound<UserDto>("Usuário não encontrado!");
 
             var rentalUser= await _rentalRepository.GetRentalUser(id);
             if(rentalUser != null)
                 return ResultService.BadRequest("Usuário associado a aluguéis.");
 
             await _userRepository.Delete(user);
-            return ResultService.Ok("O Usuário foi deletado.");
+            return ResultService.Ok("Usuário deletado.");
         }
 
         public async Task<ResultService<List<UserDto>>> GetPagedAsync(FilterDb request)

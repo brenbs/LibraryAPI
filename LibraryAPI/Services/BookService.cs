@@ -33,7 +33,7 @@ namespace LibraryAPI.Services
 
             var sameName = await _bookRepository.GetBooksByName(createBookDto.Name);
             if (sameName != null)
-                return ResultService.BadRequest("Livro já cadastrado!");
+                return ResultService.BadRequest("Livro já cadastrado.");
 
             if(createBookDto.Release>DateTime.Now.Year)
                 return ResultService.BadRequest("Ano inválido");
@@ -53,7 +53,7 @@ namespace LibraryAPI.Services
         {
             var book = await _bookRepository.GetBooksById(id);
             if (book == null)
-                return ResultService.NotFound<BookDto>("Livro não encontrado");
+                return ResultService.NotFound<BookDto>("Livro não encontrado!");
 
             return ResultService.Ok(_mapper.Map<BookDto>(book));
         }
@@ -70,18 +70,18 @@ namespace LibraryAPI.Services
 
             var sameName = await _bookRepository.GetBooksByName(updateBookDto.Name);
             if (sameName != null && sameName.Id!= updateBookDto.Id)
-                return ResultService.BadRequest("Livro já cadastrado!");
+                return ResultService.BadRequest("Livro já cadastrado.");
 
             book = _mapper.Map(updateBookDto, book);
             await _bookRepository.Update(book);
-            return ResultService.Ok("Livro atualizado");
+            return ResultService.Ok("Livro atualizado.");
         }
 
         public async Task<ResultService> DeleteAsync(int id)
         {
             var book = await _bookRepository.GetBooksById(id);
             if (book == null)
-                return ResultService.NotFound("Livro não encontrado");
+                return ResultService.NotFound("Livro não encontrado!");
 
             var bookRental = await _rentalRepo.GetRentalBook(id);
                 if(bookRental!=null)

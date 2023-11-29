@@ -8,7 +8,7 @@ namespace LibraryAPI.Data.Interfaces
         Task<User> Add(User user);
         Task Update(User user);
         Task Delete(User user);
-        Task<ICollection<User>> GetAllusers();
+        Task<ICollection<User>> GetAllUsers();
         Task<User> GetuserById(int userId);
         Task<User> GetuserByName(string userName);
         Task<User> GetuserByEmail(string userEmail);

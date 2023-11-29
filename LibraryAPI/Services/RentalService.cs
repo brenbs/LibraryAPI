@@ -48,7 +48,7 @@ namespace LibraryAPI.Services
             var diff = createRentalDto.ForecastDate.Date.Subtract(DateTime.Now.Date);
             if (diff.Days > 30)
             {
-                return ResultService.BadRequest("A data de previsão deve ser máximo 30 dias.");
+                return ResultService.BadRequest("A data de previsão deve ser máximo 30 dias!");
             }
 
             var rental = _mapper.Map<Rental>(createRentalDto);
@@ -59,10 +59,10 @@ namespace LibraryAPI.Services
 
             var sameRental = await _rentalRepository.GetBookUser(createRentalDto.BookId, createRentalDto.UserId);
             if (sameRental != null && rental.Status == "Pendente")
-                return ResultService.BadRequest("O usuário não pode alugar o mesmo livro");
+                return ResultService.BadRequest("O usuário não pode alugar o mesmo livro!");
 
             await _rentalRepository.Add(rental);
-            return ResultService.Ok("Aluguel cadastrado");
+            return ResultService.Ok("Aluguel cadastrado.");
         }
 
         public async Task<ResultService<ICollection<RentalDto>>> GetAsync()
@@ -112,7 +112,7 @@ namespace LibraryAPI.Services
 
             await _rentalRepository.Update(rental);
 
-            return ResultService.Ok("Aluguel atualizado com sucesso!");
+            return ResultService.Ok("Aluguel atualizado com sucesso.");
         }
         public async Task<ResultService<List<RentalDto>>> GetPagedAsync(FilterDb request)
         {
