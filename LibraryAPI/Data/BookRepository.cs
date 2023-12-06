@@ -72,7 +72,7 @@ namespace LibraryAPI.Data
                               x.Stock.ToString().Contains(ignore)||
                               x.Release.ToString().Contains(ignore) ||
                               x.PublisherId.ToString().Contains(ignore) ||
-                              x.Publisher.ToString().Contains(ignore) ||
+                              x.Publisher.Name.ToLower().Contains(ignore) ||
                               x.TotalRental.ToString().Contains(ignore) ||
                               x.Id.ToString().Contains(ignore));
             }

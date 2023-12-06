@@ -42,7 +42,10 @@ namespace LibraryAPI.Services
             if (book == null)
                 return ResultService.NotFound("Livro não encontrado!");
 
-            if(createRentalDto.RentalDate.Date!= DateTime.Now.Date)
+            if (book.Stock<=0)
+                return ResultService.BadRequest("Livro em Falta!");
+
+            if (createRentalDto.RentalDate.Date!= DateTime.Now.Date)
                 return ResultService.BadRequest("A data de aluguél só pode ser a de hoje!");
 
             var diff = createRentalDto.ForecastDate.Date.Subtract(DateTime.Now.Date);

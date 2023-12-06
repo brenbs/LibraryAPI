@@ -58,8 +58,8 @@ namespace LibraryAPI.Data
                 rental = rental.Where(x => x.UserId.ToString()
                 .Contains(request.SearchValue) ||
                 x.BookId.ToString().Contains(ignore) ||
-                x.Book.Name.Contains(ignore) ||
-                x.User.Name.Contains(ignore) ||
+                x.Book.Name.ToLower().Contains(ignore) ||
+                x.User.Name.ToLower().Contains(ignore) ||
                 x.Status.ToLower().Contains(ignore)||
                 x.RentalDate.ToString().Contains(ignore) ||
                 x.ForecastDate.ToString().Contains(ignore) ||
