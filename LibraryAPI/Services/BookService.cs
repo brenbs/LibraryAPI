@@ -38,6 +38,9 @@ namespace LibraryAPI.Services
             if(createBookDto.Release>DateTime.Now.Year)
                 return ResultService.BadRequest("Ano inválido");
 
+            if (Math.Floor(Math.Log10(createBookDto.Release) + 1) > 4)
+                return ResultService.BadRequest("Ano inválido");
+
             var book = _mapper.Map<Book>(createBookDto);
             await _bookRepository.Add(book);
             return ResultService.Ok("Livro cadastrado");
@@ -71,6 +74,12 @@ namespace LibraryAPI.Services
             var sameName = await _bookRepository.GetBooksByName(updateBookDto.Name);
             if (sameName != null && sameName.Id!= updateBookDto.Id)
                 return ResultService.BadRequest("Livro já cadastrado.");
+
+            if (updateBookDto.Release > DateTime.Now.Year)
+                return ResultService.BadRequest("Ano inválido");
+
+            if (Math.Floor(Math.Log10(updateBookDto.Release) + 1) > 4)
+                return ResultService.BadRequest("Ano inválido");
 
             book = _mapper.Map(updateBookDto, book);
             await _bookRepository.Update(book);
